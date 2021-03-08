@@ -22,8 +22,10 @@ OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)
 
-$(NAME): ${HEADER_FILE} ${OBJS}
-	git submodule update -i
+update:
+	git submodule update --init --recursive
+
+$(NAME): update ${HEADER_FILE} ${OBJS}
 	$(MLX_MAKE)
 	$(LIBFT_MAKE)
 	$(CC) -g -fsanitize=address -o $(NAME) $(SRCS) $(LIBFT_LIB) -L$(MLX_PATH) -lmlx -L$(INCLIB) -lXext -lX11 -lm -lbsd
@@ -42,4 +44,4 @@ re: fclean all
 run: all
 	./$(NAME) ./rtfiles/example.rt
 
-.PHONY: all clean fclean re run
+.PHONY: all clean fclean re run update
