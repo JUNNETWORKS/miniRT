@@ -10,6 +10,7 @@ NAME = miniRT
 CC = gcc
 HEADER_FILE = minirt.h
 SRCS = main.c \
+	   drawers.c \
 	   utils.c \
 	   color_utils.c \
 	   error_utils.c \

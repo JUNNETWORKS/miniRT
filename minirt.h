@@ -25,9 +25,18 @@ typedef struct	s_img {
 	int			height;
 }				t_img;
 
+typedef struct	s_world {
+	void		*mlx;
+	void		*win;
+	t_img		img;
+	int			screen_width;
+	int			screen_height;
+}				t_world;
+
 // MLX Utils
 void			my_mlx_pixel_put(t_img *img, int x, int y, int color);
 uint32_t		get_color_from_img(t_img img, int x, int y);
+void			clear_img(t_img *img);
 // Utils
 double			deg2rad(int x);
 int				rad2deg(double x);
