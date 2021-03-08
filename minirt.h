@@ -33,6 +33,13 @@ typedef struct	s_world {
 	int			screen_height;
 }				t_world;
 
+// Vector3D
+typedef struct	s_vec3 {
+	double		x;
+	double		y;
+	double		z;
+} t_vec3;
+
 // MLX Utils
 void			my_mlx_pixel_put(t_img *img, int x, int y, int color);
 uint32_t		get_color_from_img(t_img img, int x, int y);
