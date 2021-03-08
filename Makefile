@@ -9,7 +9,13 @@ LIBFT_LIB = ./libft/libft.a
 NAME = miniRT
 CC = gcc
 HEADER_FILE = minirt.h
-SRCS = main.c
+SRCS = main.c \
+	   utils.c \
+	   color_utils.c \
+	   error_utils.c \
+	   free_utils.c \
+	   mlx_utils.c \
+	   ptrarr_utils.c
 OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)
