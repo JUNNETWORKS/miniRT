@@ -16,9 +16,26 @@ int	initialize_world(t_world *world)
 	return (0);
 }
 
+int	raytracing(t_world *world)
+{
+	for (int y = 0; y < world->screen_height; y++){
+		for (int x = 0; x < world->screen_width; x++){
+			// スクリーン座標からワールド座標への変換
+			// x,yは[-1,1]へ変換する
+			// スクリーン上の点の三次元空間における位置を計算する
+			t_vec3 screen_vec;
+			screen_vec.x = 2 * x / world->screen_width - 1.0;
+			screen_vec.y = 2 * y / world->screen_height - 1.0;
+			screen_vec.z = 0;
+		}
+	}
+	return (0);
+}
+
 int	main_loop(t_world *world)
 {
 	clear_img(&world->img);
+	raytracing(world);
 	mlx_put_image_to_window(world->mlx, world->win, world->img.img, 0, 0);
 	return (0);
 }
