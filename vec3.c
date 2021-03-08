@@ -44,3 +44,10 @@ double	vec3_mag(t_vec3 a)
 {
 	return (sqrt(a.x * a.x + a.y * a.y + a.z * a.z));
 }
+
+// ベクトルの正規化
+t_vec3	vec3_normalize(t_vec3 a)
+{
+	double mag = vec3_mag(a);
+	return (vec3_init(a.x / mag, a.y / mag, a.z / mag));
+}
