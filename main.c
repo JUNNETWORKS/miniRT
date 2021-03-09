@@ -32,7 +32,7 @@ int	raytracing(t_world *world)
 	light_vec = vec3_init(-5, 5, -5);
 	for (double x = 0; x < world->screen_width; x++){
 		for (double y = 0; y < world->screen_height; y++){
-			  // スクリーン座標からワールド座標への変換
+			// スクリーン座標からワールド座標への変換
 			// x,yは[-1,1]へ変換する
 			// スクリーン上の点の三次元空間における位置を計算する
 			t_vec3 screen_vec;
@@ -109,11 +109,11 @@ int	raytracing(t_world *world)
 
 				// 最終的な輝度  (環境光 + 拡散反射光 + 鏡面反射光)
 				double R_r = R_a + R_d + R_s;
-				my_mlx_pixel_put(&world->img, x, y, rgb2hex((int)(255 * R_r), 0, 0));
+				my_mlx_pixel_put(&world->img, x, world->screen_height - y - 1, rgb2hex((int)(255 * R_r), 0, 0));
 			}
 			else
 			{
-				my_mlx_pixel_put(&world->img, x, y, rgb2hex(0, 0, 255));
+				my_mlx_pixel_put(&world->img, x, world->screen_height - y - 1, rgb2hex(0, 0, 255));
 			}
 		}
 	}
