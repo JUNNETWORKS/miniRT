@@ -85,7 +85,7 @@ int	raytracing(t_world *world)
 				// 拡散反射光の放射輝度R_d
 				double R_d = k_d * I_i * ray_deg;
 
-				my_mlx_pixel_put(&world->img, x, y, rgb2hex(255, 0, 0));
+				my_mlx_pixel_put(&world->img, x, y, rgb2hex((int)(255 * R_d), 0, 0));
 			}
 			else
 			{
