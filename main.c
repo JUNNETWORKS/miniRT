@@ -79,13 +79,37 @@ int	raytracing(t_world *world)
 
 				// 拡散反射光R_dの計算
 				// 光源の強度I_i
-				double I_i = 1;
+				double I_i = 1.0;
 				// 拡散反射係数k_d
-				double k_d = 1;
+				double k_d = 0.69;
 				// 拡散反射光の放射輝度R_d
 				double R_d = k_d * I_i * ray_deg;
 
-				my_mlx_pixel_put(&world->img, x, y, rgb2hex((int)(255 * R_d), 0, 0));
+				// 環境光R_aの計算
+				// 環境光の強度
+				double I_a = 0.1;
+				// 環境光反射係数
+				double k_a = 0.01;
+				// 環境光R_a
+				double R_a = k_a * I_a;
+
+				// 鏡面反射光R_sの計算
+				// 鏡面反射係数k_s
+				double k_s = 0.3;
+				// 光沢度α
+				double alpha = 8;
+				// 視線ベクトルの逆ベクトル
+				t_vec3 v = vec3_mult(dir_vec, -1);
+				// 入射光の正反射ベクトル
+				t_vec3 r = vec3_sub(vec3_mult(vec3_mult(n, vec3_dot(n, l)), 2), l);
+				// 鏡面反射光の放射強度R_s
+				double R_s = k_s * I_i * pow(vec3_dot(v, r), alpha);
+				if (vec3_dot(v, r) < 0)
+					R_s = 0;
+
+				// 最終的な輝度  (環境光 + 拡散反射光 + 鏡面反射光)
+				double R_r = R_a + R_d + R_s;
+				my_mlx_pixel_put(&world->img, x, y, rgb2hex((int)(255 * R_r), 0, 0));
 			}
 			else
 			{
