@@ -22,10 +22,11 @@ int	raytracing(t_world *world)
 	t_vec3 camera_vec;
 	camera_vec = vec3_init(0, 0, -5);  // スクリーンの少し手前な感じ
 
-	// 球の中心座標
-	t_vec3 sphere_vec;
-	sphere_vec = vec3_init(0, 0, 5);  // スクリーンの少し奥な感じ
-	double sphere_r = 1;  // 半径
+	// 球のオブジェクト
+	t_sphere sphere;
+	sphere.type = SPHERE;  // オブジェクトタイプを判定するために持たせとく
+	sphere.center = vec3_init(0, 0, 5);  // スクリーンの少し奥な感じ
+	sphere.radius = 1;  // 半径
 
 	// 点光源(light)
 	t_vec3 light_vec;
@@ -42,12 +43,12 @@ int	raytracing(t_world *world)
 			t_vec3 dir_vec;
 			dir_vec = vec3_normalize(vec3_sub(screen_vec, camera_vec));
 
-			t_vec3 camera2sphere_vec = vec3_sub(camera_vec, sphere_vec);
+			t_vec3 camera2sphere_vec = vec3_sub(camera_vec, sphere.center);
 
 			// レイが球に当たったか計算する
 			double a = vec3_mag(dir_vec) * vec3_mag(dir_vec);
 			double b = 2 * vec3_dot(camera2sphere_vec, dir_vec);
-			double c = vec3_dot(camera2sphere_vec, camera2sphere_vec) - sphere_r * sphere_r;
+			double c = vec3_dot(camera2sphere_vec, camera2sphere_vec) - sphere.radius * sphere.radius;
 			// 判別式
 			double d = b * b - 4 * a * c;
 			if (d >= 0)
@@ -70,7 +71,7 @@ int	raytracing(t_world *world)
 
 				// 物体面の法線ベクトルの計算
 				t_vec3 n;
-				n = vec3_normalize(vec3_sub(p_i, sphere_vec));
+				n = vec3_normalize(vec3_sub(p_i, sphere.center));
 
 				double ray_deg = vec3_dot(n, l);
 				// 法線ベクトルと入射ベクトルの成す角がπ/2を超えた時, 光は裏側から当たっているので反射は起きない

@@ -14,6 +14,13 @@
 # include <errno.h>
 # include <string.h>
 
+// Vector3D
+typedef struct	s_vec3 {
+	double		x;
+	double		y;
+	double		z;
+} t_vec3;
+
 // 描画するためのイメージ情報を保持
 typedef struct	s_img {
 	void		*img;
@@ -25,20 +32,33 @@ typedef struct	s_img {
 	int			height;
 }				t_img;
 
+enum e_shape {
+  SPHERE,
+  PLANE,
+  SQUARE,
+  CYLINDER,
+  TRIANGLE
+};
+
+typedef struct s_sphere {
+  enum e_shape	type;
+  t_vec3		center;
+  double		radius;
+} t_sphere;
+
+typedef struct s_plane {
+  enum e_shape	type;
+  t_vec3		center;
+} t_plane;
+
 typedef struct	s_world {
 	void		*mlx;
 	void		*win;
 	t_img		img;
 	int			screen_width;
 	int			screen_height;
+	void		*objects;
 }				t_world;
-
-// Vector3D
-typedef struct	s_vec3 {
-	double		x;
-	double		y;
-	double		z;
-} t_vec3;
 
 // MLX Utils
 void			my_mlx_pixel_put(t_img *img, int x, int y, int color);
