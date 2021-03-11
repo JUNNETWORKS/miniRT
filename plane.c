@@ -24,7 +24,7 @@ bool			plane_has_intersection(t_ray ray, t_object plane)
 		return (false);
 	s_n_dot = vec3_dot(ray.start, plane.normal);
 	p0_n_dot = vec3_dot(plane.center, plane.normal);
-	t = -1 * (s_n_dot + p0_n_dot) / d_n_dot;
+	t = (s_n_dot - p0_n_dot) / d_n_dot;
 	return (t >= 0 ? true : false);
 }
 
@@ -39,7 +39,7 @@ t_intersection	calc_plane_intersection(t_ray ray, t_object plane)
 	d_n_dot = vec3_dot(ray.direction, plane.normal);
 	s_n_dot = vec3_dot(ray.start, plane.normal);
 	p0_n_dot = vec3_dot(plane.center, plane.normal);
-	t = -1 * (s_n_dot + p0_n_dot) / d_n_dot;
+	t = (s_n_dot - p0_n_dot) / d_n_dot;
 	intersection.distance = t;
 	intersection.normal = plane.normal;
 	intersection.position = vec3_add(ray.start, vec3_mult(ray.direction, t));
