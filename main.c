@@ -33,7 +33,10 @@ int		initialize_objects(t_world *world)
 	if (!(object = sphere_init(vec3_init(0, 0, 10), 1)) ||
 		!(ft_lstadd_back_new(&world->objects, object)))
 		return (put_and_return_err("failed malloc object"));
-	if (!(object = plane_init(vec3_init(0, 0, 0), vec3_init(1,1,1))) ||
+	if (!(object = sphere_init(vec3_init(-1, 0, 5), 1)) ||
+		!(ft_lstadd_back_new(&world->objects, object)))
+		return (put_and_return_err("failed malloc object"));
+	if (!(object = plane_init(vec3_init(0, -1, 0), vec3_init(0, 1, 0))) ||
 		!(ft_lstadd_back_new(&world->objects, object)))
 		return (put_and_return_err("failed malloc object"));
 	return (0);
@@ -66,7 +69,7 @@ int	raytracing(t_world *world)
 			nearest_object_ptr = get_nearest_object(world, ray);
 			if (nearest_object_ptr)
 			{
-				t_intersection intersection = calc_sphere_intersection(ray, *nearest_object_ptr);
+				t_intersection intersection = calc_intersection(ray, *nearest_object_ptr);
 				// 交点までの距離がマイナスということはスクリーンより後ろにあるということ
 				if (intersection.distance < 0)
 					continue;
@@ -84,7 +87,7 @@ int	raytracing(t_world *world)
 				// 光源の強度I_i
 				t_fcolor I_i = init_fcolor(1.0, 1.0, 1.0);
 				// 拡散反射係数k_d
-				t_fcolor k_d = init_fcolor(0.69, 0.69, 0.0);
+				t_fcolor k_d = init_fcolor(0.69, 0.0, 0.0);
 				// 拡散反射光の放射輝度R_d
 				t_fcolor R_d = fcolor_mult_scalar(fcolor_mult(k_d, I_i), ray_deg);
 
@@ -111,11 +114,11 @@ int	raytracing(t_world *world)
 
 				// 最終的な輝度  (環境光 + 拡散反射光 + 鏡面反射光)
 				t_fcolor R_r = fcolor_add(fcolor_add(R_a, R_d), R_s);
-				my_mlx_pixel_put(&world->img, x, world->screen_height - y - 1, fcolor2hex(R_r));
+				my_mlx_pixel_put(&world->img, x, y, fcolor2hex(R_r));
 			}
 			else
 			{
-				my_mlx_pixel_put(&world->img, x, world->screen_height - y - 1, rgb2hex(0, 0, 255));
+				my_mlx_pixel_put(&world->img, x, y, rgb2hex(50, 50, 50));
 			}
 		}
 	}
@@ -135,6 +138,7 @@ int main()
 	t_world world;
 	initialize_world(&world);
 	initialize_objects(&world);
+	print_world(&world);
 	mlx_loop_hook(world.mlx, &main_loop, &world);
 	mlx_loop(world.mlx);
 }
