@@ -135,5 +135,6 @@ size_t			ptrarr_len(void **ptrarr);
 void			free_ptrarr(void **ptrarr);
 void			free_ptrarr_and_assign_null(void ***ptrarr);
 void			free_and_assign_null(void **p);
+void			print_world(t_world *world);
 
 #endif

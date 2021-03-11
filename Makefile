@@ -20,7 +20,8 @@ SRCS = main.c \
 	   ptrarr_utils.c \
 	   sphere.c \
 	   plane.c \
-	   intersection.c
+	   intersection.c \
+	   debug.c
 OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)
