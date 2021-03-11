@@ -7,6 +7,7 @@ t_object		*sphere_init(t_vec3 center, double radius)
 		return (NULL);
 	sphere->type = SPHERE;
 	sphere->center = center;
+	sphere->radius = radius;
 	return (sphere);
 }
 
