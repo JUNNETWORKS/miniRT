@@ -1,6 +1,6 @@
 #include "minirt.h"
 
-int	initialize_world(t_world *world)
+int		initialize_world(t_world *world)
 {
 	world->mlx = mlx_init();
 	world->screen_width = 511;
@@ -13,6 +13,29 @@ int	initialize_world(t_world *world)
 		&world->img.bits_per_pixel, &world->img.line_length, &world->img.endian);
 	world->img.width = world->screen_width;
 	world->img.height = world->screen_height;
+	return (0);
+}
+
+int		initialize_objects(t_world *world)
+{
+	t_sphere	*sphere;
+	t_plane		*plane;
+
+	if (!(sphere = sphere_init(vec3_init(3, 0, 25), 1)) ||
+		!(ft_lstadd_back_new(&world->objects, sphere)))
+		return (put_and_return_err("failed malloc object"));
+	if (!(sphere = sphere_init(vec3_init(2, 0, 20), 1)) ||
+		!(ft_lstadd_back_new(&world->objects, sphere)))
+		return (put_and_return_err("failed malloc object"));
+	if (!(sphere = sphere_init(vec3_init(1, 0, 15), 1)) ||
+		!(ft_lstadd_back_new(&world->objects, sphere)))
+		return (put_and_return_err("failed malloc object"));
+	if (!(sphere = sphere_init(vec3_init(0, 0, 10), 1)) ||
+		!(ft_lstadd_back_new(&world->objects, sphere)))
+		return (put_and_return_err("failed malloc object"));
+	if (!(plane = plane_init(vec3_init(0, 0, 0), vec3_init(1,1,1))) ||
+		!(ft_lstadd_back_new(&world->objects, plane)))
+		return (put_and_return_err("failed malloc object"));
 	return (0);
 }
 
@@ -64,12 +87,6 @@ int	raytracing(t_world *world)
 	// 視点位置を表すベクトル
 	t_vec3 camera_vec;
 	camera_vec = vec3_init(0, 0, -5);  // スクリーンの少し手前な感じ
-
-	// 球のオブジェクト
-	t_sphere sphere;
-	sphere.type = SPHERE;  // オブジェクトタイプを判定するために持たせとく
-	sphere.center = vec3_init(0, 0, 5);  // スクリーンの少し奥な感じ
-	sphere.radius = 1;  // 半径
 
 	// 点光源(light)
 	t_vec3 light_vec;
@@ -157,6 +174,7 @@ int main()
 {
 	t_world world;
 	initialize_world(&world);
+	initialize_objects(&world);
 	mlx_loop_hook(world.mlx, &main_loop, &world);
 	mlx_loop(world.mlx);
 }
