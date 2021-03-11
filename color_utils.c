@@ -32,3 +32,30 @@ uint32_t	fcolor2hex(t_fcolor fcolor)
 {
 	return (rgb2hex(fcolor.red * 255, fcolor.green * 255, fcolor.blue * 255));
 };
+
+// fcolorの足し算. 各チャンネルごとに足す
+t_fcolor	fcolor_add(t_fcolor a, t_fcolor b)
+{
+	a.red += b.red;
+	a.green += b.green;
+	a.blue += b.blue;
+	return (a);
+}
+
+// fcolorの掛け算. 各チャンネルごとに掛ける
+t_fcolor	fcolor_mult(t_fcolor a, t_fcolor b)
+{
+	a.red *= b.red;
+	a.green *= b.green;
+	a.blue *= b.blue;
+	return (a);
+}
+
+// fcolorとスカラーの掛け算. 各チャンネルごとに掛ける
+t_fcolor	fcolor_mult_scalar(t_fcolor a, double b)
+{
+	a.red *= b;
+	a.green *= b;
+	a.blue *= b;
+	return (a);
+}
