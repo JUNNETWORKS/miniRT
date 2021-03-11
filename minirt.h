@@ -32,24 +32,59 @@ typedef struct	s_img {
 	int			height;
 }				t_img;
 
-enum e_shape {
-  SPHERE,
-  PLANE,
-  SQUARE,
-  CYLINDER,
-  TRIANGLE
+// レイ(光線)を表す構造体
+typedef struct	s_ray {
+	// レイの始点
+	t_vec3		start;
+	// レイの方向ベクトル
+	t_vec3		direction;
+}				t_ray;
+
+// 反射係数をRGBごとに保持する構造体
+typedef struct	s_fcolor {
+	double		red;
+	double		green;
+	double		blue;
+}				t_fcolor;
+
+// ライティングに関する情報を持つ構造体
+typedef struct	s_lighting {
+	// 光源までの距離
+	t_vec3		distance;
+	// ライティングの強度
+	t_fcolor	intensity;
+	// ライティングの方向
+	t_vec3 		direction;
+}				t_lightling;
+
+// 交点を表す構造体
+typedef struct	s_intersection {
+	// 交点までの距離
+	double		distance;
+	// 交点の位置
+	t_vec3		position;
+	// 交点における法線ベクトル
+	t_vec3		normal;
+}				t_intersection;
+
+enum	e_shape {
+		SPHERE,
+		PLANE,
+		SQUARE,
+		CYLINDER,
+		TRIANGLE
 };
 
-typedef struct s_sphere {
+typedef struct	s_sphere {
   enum e_shape	type;
   t_vec3		center;
   double		radius;
-} t_sphere;
+}				t_sphere;
 
-typedef struct s_plane {
+typedef struct	s_plane {
   enum e_shape	type;
   t_vec3		center;
-} t_plane;
+}				t_plane;
 
 typedef struct	s_world {
 	void		*mlx;
@@ -77,6 +112,7 @@ t_vec3			vec3_normalize(t_vec3 a);
 double			deg2rad(int x);
 int				rad2deg(double x);
 uint32_t		rgb2hex(int r, int g, int b);
+uint32_t		fcolor2hex(t_fcolor fcolor);
 uint32_t		alpha_blend(uint32_t dst, uint32_t src);
 void			put_error_msg(char *str);
 int				put_and_return_err(char *str);

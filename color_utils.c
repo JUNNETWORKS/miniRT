@@ -27,3 +27,8 @@ uint32_t	rgb2hex(int r, int g, int b)
 	return (color);
 }
 
+// 放射輝度から32bit色に変換する
+uint32_t	fcolor2hex(t_fcolor fcolor)
+{
+	return (rgb2hex(fcolor.red * 255, fcolor.green * 255, fcolor.blue * 255));
+};

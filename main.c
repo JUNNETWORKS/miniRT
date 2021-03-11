@@ -16,6 +16,49 @@ int	initialize_world(t_world *world)
 	return (0);
 }
 
+bool	sphere_has_intersection(t_ray ray, t_sphere sphere)
+{
+	t_vec3 camera2sphere_vec = vec3_sub(ray.start, sphere.center);
+	// レイが球に当たったか計算する
+	double a = vec3_mag(ray.direction) * vec3_mag(ray.direction);
+	double b = 2 * vec3_dot(camera2sphere_vec, ray.direction);
+	double c = vec3_dot(camera2sphere_vec, camera2sphere_vec) - sphere.radius * sphere.radius;
+	// 判別式
+	double d = b * b - 4 * a * c;
+	return (d >= 0);
+}
+
+t_intersection calc_sphere_intersection(t_ray ray, t_sphere sphere){
+	t_vec3 camera2sphere_vec = vec3_sub(ray.start, sphere.center);
+	// レイが球に当たったか計算する
+	double a = vec3_mag(ray.direction) * vec3_mag(ray.direction);
+	double b = 2 * vec3_dot(camera2sphere_vec, ray.direction);
+	double c = vec3_dot(camera2sphere_vec, camera2sphere_vec) - sphere.radius * sphere.radius;
+	// 判別式
+	double d = b * b - 4 * a * c;
+
+	// レイと物体との交点の計算
+	double t = (-b - sqrt(d)) / (2 * a);
+	if (d > 0){  // d > 0 の時, 2つの交点を持つ
+		double t1 = (-b + sqrt(d)) / (2 * a);
+		// 近い方の交点を描画する
+		t = t < t1 ? t : t1;
+	}
+
+	// レイと物体との交点
+	t_vec3 p_i = vec3_add(ray.start, vec3_mult(ray.direction, t));
+
+	// 物体面の法線ベクトルの計算
+	t_vec3 n;
+	n = vec3_normalize(vec3_sub(p_i, sphere.center));
+
+	t_intersection intersection;
+	intersection.distance = t;
+	intersection.normal = n;
+	intersection.position = p_i;
+	return intersection;
+}
+
 int	raytracing(t_world *world)
 {
 	// 視点位置を表すベクトル
@@ -39,41 +82,23 @@ int	raytracing(t_world *world)
 			t_vec3 screen_vec;
 			screen_vec = vec3_init(2 * x / world->screen_width - 1.0, 2 * y / world->screen_height - 1.0, 0);
 
-			// 方向ベクトル
-			t_vec3 dir_vec;
-			dir_vec = vec3_normalize(vec3_sub(screen_vec, camera_vec));
+			// レイ(光線)
+			t_ray ray;
+			ray.start = camera_vec;
+			ray.direction = vec3_normalize(vec3_sub(screen_vec, camera_vec));
 
-			t_vec3 camera2sphere_vec = vec3_sub(camera_vec, sphere.center);
-
-			// レイが球に当たったか計算する
-			double a = vec3_mag(dir_vec) * vec3_mag(dir_vec);
-			double b = 2 * vec3_dot(camera2sphere_vec, dir_vec);
-			double c = vec3_dot(camera2sphere_vec, camera2sphere_vec) - sphere.radius * sphere.radius;
-			// 判別式
-			double d = b * b - 4 * a * c;
-			if (d >= 0)
+			if (sphere_has_intersection(ray, sphere))
 			{
-				// レイと物体との交点の計算
-				double t = (-b - sqrt(d)) / (2 * a);
-				if (d > 0){  // d > 0 の時, 2つの交点を持つ
-					double t1 = (-b + sqrt(d)) / (2 * a);
-					// 近い方の交点を描画する
-					t = t < t1 ? t : t1;
-				}
-				// レイと物体との交点
-				t_vec3 p_i = vec3_add(camera_vec, vec3_mult(dir_vec, t));
-				if (t < 0)
+				t_intersection intersection = calc_sphere_intersection(ray, sphere);
+				// 交点までの距離がマイナスということはスクリーンより後ろにあるということ
+				if (intersection.distance < 0)
 					continue;
 
 				// 光の入射ベクトルの計算
 				t_vec3 l;
-				l = vec3_normalize(vec3_sub(light_vec, p_i));
+				l = vec3_normalize(vec3_sub(light_vec, intersection.position));
 
-				// 物体面の法線ベクトルの計算
-				t_vec3 n;
-				n = vec3_normalize(vec3_sub(p_i, sphere.center));
-
-				double ray_deg = vec3_dot(n, l);
+				double ray_deg = vec3_dot(intersection.normal, l);
 				// 法線ベクトルと入射ベクトルの成す角がπ/2を超えた時, 光は裏側から当たっているので反射は起きない
 				if (ray_deg < 0)
 					ray_deg = 0;
@@ -100,9 +125,9 @@ int	raytracing(t_world *world)
 				// 光沢度α
 				double alpha = 8;
 				// 視線ベクトルの逆ベクトル
-				t_vec3 v = vec3_mult(dir_vec, -1);
+				t_vec3 v = vec3_mult(ray.direction, -1);
 				// 入射光の正反射ベクトル
-				t_vec3 r = vec3_sub(vec3_mult(vec3_mult(n, vec3_dot(n, l)), 2), l);
+				t_vec3 r = vec3_sub(vec3_mult(vec3_mult(intersection.normal, vec3_dot(intersection.normal, l)), 2), l);
 				// 鏡面反射光の放射強度R_s
 				double R_s = k_s * I_i * pow(vec3_dot(v, r), alpha);
 				if (vec3_dot(v, r) < 0)
