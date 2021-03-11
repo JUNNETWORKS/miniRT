@@ -17,7 +17,9 @@ SRCS = main.c \
 	   error_utils.c \
 	   free_utils.c \
 	   mlx_utils.c \
-	   ptrarr_utils.c
+	   ptrarr_utils.c \
+	   sphere.c \
+	   plane.c
 OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)
