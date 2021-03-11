@@ -28,3 +28,19 @@ void	print_world(t_world *world)
 	}
 }
 
+void	print_vec3(t_vec3 vec)
+{
+	printf("{x: %lf,y: %lf, z: %lf}", vec.x, vec.y, vec.z);
+}
+
+void	print_object(t_object object)
+{
+	printf("type: %d (%s)\n", object.type, get_type_name(object.type));
+	printf("center: ");
+	print_vec3(object.center);
+	printf("\n");
+	printf("normal: ");
+	print_vec3(object.normal);
+	printf("\n");
+	printf("radius: %lf\n", object.radius);
+}
