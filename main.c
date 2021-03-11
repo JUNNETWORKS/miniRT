@@ -62,10 +62,11 @@ int	raytracing(t_world *world)
 			ray.direction = vec3_normalize(vec3_sub(screen_vec, camera_vec));
 
 			// もっと交点距離の短いオブジェクトを取得する
-
-			if (sphere_has_intersection(ray, sphere))
+			t_object *nearest_object_ptr;
+			nearest_object_ptr = get_nearest_object(world, ray);
+			if (nearest_object_ptr)
 			{
-				t_intersection intersection = calc_sphere_intersection(ray, sphere);
+				t_intersection intersection = calc_sphere_intersection(ray, *nearest_object_ptr);
 				// 交点までの距離がマイナスということはスクリーンより後ろにあるということ
 				if (intersection.distance < 0)
 					continue;
