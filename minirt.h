@@ -13,6 +13,7 @@
 # include <stdbool.h>
 # include <errno.h>
 # include <string.h>
+# include <float.h>
 
 // Vector3D
 typedef struct	s_vec3 {
