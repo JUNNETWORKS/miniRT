@@ -107,6 +107,11 @@ t_vec3			vec3_normalize(t_vec3 a);
 // Objects
 t_object		*sphere_init(t_vec3 center, double radius);
 t_object		*plane_init(t_vec3 center, t_vec3 normal);
+// Object's functions
+bool			sphere_has_intersection(t_ray ray, t_object sphere);
+t_intersection	calc_sphere_intersection(t_ray ray, t_object sphere);
+bool			plane_has_intersection(t_ray ray, t_object plane);
+t_intersection	calc_plane_intersection(t_ray ray, t_object plane);
 // Utils
 double			deg2rad(int x);
 int				rad2deg(double x);
