@@ -75,17 +75,12 @@ enum	e_shape {
 		TRIANGLE
 };
 
-typedef struct	s_sphere {
+typedef struct	s_object {
   enum e_shape	type;
-  t_vec3		center;
-  double		radius;
-}				t_sphere;
-
-typedef struct	s_plane {
-  enum e_shape	type;
-  t_vec3		center;
-  t_vec3		normal;
-}				t_plane;
+  t_vec3		center;  // plane, sphere
+  t_vec3		normal;  // plane
+  double		radius;  // sphere
+}				t_object;
 
 typedef struct	s_world {
 	void		*mlx;
@@ -110,8 +105,8 @@ t_vec3			vec3_cross(t_vec3 a, t_vec3 b);
 double			vec3_mag(t_vec3 a);
 t_vec3			vec3_normalize(t_vec3 a);
 // Objects
-t_sphere		*sphere_init(t_vec3 center, double radius);
-t_plane			*plane_init(t_vec3 center, t_vec3 normal);
+t_object		*sphere_init(t_vec3 center, double radius);
+t_object		*plane_init(t_vec3 center, t_vec3 normal);
 // Utils
 double			deg2rad(int x);
 int				rad2deg(double x);
