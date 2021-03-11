@@ -25,7 +25,7 @@ t_object		*get_nearest_object(t_world *world, t_ray ray)
 	double		current_distance;
 	t_list		*current_lst;
 
-	nearest_distance = DBL_MAX;
+	nearest_distance = INFINITY;
 	nearest_object = NULL;
 	current_lst = world->objects;
 	while (current_lst)
