@@ -13,6 +13,7 @@ int		initialize_world(t_world *world)
 		&world->img.bits_per_pixel, &world->img.line_length, &world->img.endian);
 	world->img.width = world->screen_width;
 	world->img.height = world->screen_height;
+	world->objects = NULL;
 	return (0);
 }
 
