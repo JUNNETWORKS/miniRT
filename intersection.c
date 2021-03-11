@@ -16,7 +16,7 @@ t_intersection	calc_intersection(t_ray ray, t_object object)
 		return (calc_sphere_intersection(ray, object));
 }
 
-t_object		get_nearest_object(t_world world, t_ray ray)
+t_object		get_nearest_object(t_world *world, t_ray ray)
 {
 	t_object	nearest_object;
 	t_object	current_object;
@@ -25,8 +25,8 @@ t_object		get_nearest_object(t_world world, t_ray ray)
 	t_list		*current_lst;
 
 	nearest_distance = DBL_MAX;
-	nearest_object = *(t_object*)world.objects->content;
-	current_lst = world.objects;
+	nearest_object = *(t_object*)world->objects->content;
+	current_lst = world->objects;
 	while (current_lst)
 	{
 		current_object = *(t_object*)current_lst->content;
