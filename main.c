@@ -57,7 +57,7 @@ int	raytracing(t_world *world)
 			// x,yは[-1,1]へ変換する
 			// スクリーン上の点の三次元空間における位置を計算する
 			t_vec3 screen_vec;
-			screen_vec = vec3_init(2 * x / world->screen_width - 1.0, 2 * y / world->screen_height - 1.0, 0);
+			screen_vec = vec3_init(2 * x / (world->screen_width - 1) - 1, -2 * y / (world->screen_height - 1) + 1, 0);
 
 			// レイ(光線)
 			t_ray ray;
