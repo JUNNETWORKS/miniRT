@@ -113,6 +113,10 @@ bool			sphere_has_intersection(t_ray ray, t_object sphere);
 t_intersection	calc_sphere_intersection(t_ray ray, t_object sphere);
 bool			plane_has_intersection(t_ray ray, t_object plane);
 t_intersection	calc_plane_intersection(t_ray ray, t_object plane);
+// calculations
+bool			has_intersection(t_ray ray, t_object object);
+t_intersection	calc_intersection(t_ray ray, t_object object);
+t_object		get_nearest_object(t_world world, t_ray ray);
 // Utils
 double			deg2rad(int x);
 int				rad2deg(double x);
