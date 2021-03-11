@@ -69,8 +69,8 @@ typedef struct	s_intersection {
 }				t_intersection;
 
 enum	e_shape {
-		SPHERE,
 		PLANE,
+		SPHERE,
 		SQUARE,
 		CYLINDER,
 		TRIANGLE
@@ -136,5 +136,6 @@ void			free_ptrarr(void **ptrarr);
 void			free_ptrarr_and_assign_null(void ***ptrarr);
 void			free_and_assign_null(void **p);
 void			print_world(t_world *world);
+char			*get_type_name(enum e_shape type);
 
 #endif
