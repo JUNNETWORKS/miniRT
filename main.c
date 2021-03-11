@@ -105,23 +105,22 @@ int	raytracing(t_world *world)
 
 				// 拡散反射光R_dの計算
 				// 光源の強度I_i
-				double I_i = 1.0;
+				t_fcolor I_i = init_fcolor(1.0, 1.0, 1.0);
 				// 拡散反射係数k_d
-				double k_d = 0.69;
+				t_fcolor k_d = init_fcolor(0.69, 0.69, 0.0);
 				// 拡散反射光の放射輝度R_d
-				double R_d = k_d * I_i * ray_deg;
+				t_fcolor R_d = fcolor_mult_scalar(fcolor_mult(k_d, I_i), ray_deg);
 
-				// 環境光R_aの計算
 				// 環境光の強度
-				double I_a = 0.1;
+				t_fcolor I_a = init_fcolor(0.1, 0.1, 0.1);
 				// 環境光反射係数
-				double k_a = 0.01;
+				t_fcolor k_a = init_fcolor(0.01, 0.01, 0.01);
 				// 環境光R_a
-				double R_a = k_a * I_a;
+				t_fcolor R_a = fcolor_mult(k_a, I_a);
 
 				// 鏡面反射光R_sの計算
 				// 鏡面反射係数k_s
-				double k_s = 0.3;
+				t_fcolor k_s = init_fcolor(0.3, 0.3, 0.3);
 				// 光沢度α
 				double alpha = 8;
 				// 視線ベクトルの逆ベクトル
@@ -129,13 +128,13 @@ int	raytracing(t_world *world)
 				// 入射光の正反射ベクトル
 				t_vec3 r = vec3_sub(vec3_mult(vec3_mult(intersection.normal, vec3_dot(intersection.normal, l)), 2), l);
 				// 鏡面反射光の放射強度R_s
-				double R_s = k_s * I_i * pow(vec3_dot(v, r), alpha);
+				t_fcolor R_s = fcolor_mult_scalar(fcolor_mult(k_s, I_i), pow(vec3_dot(v, r), alpha));
 				if (vec3_dot(v, r) < 0)
-					R_s = 0;
+					R_s = init_fcolor(0, 0, 0);
 
 				// 最終的な輝度  (環境光 + 拡散反射光 + 鏡面反射光)
-				double R_r = R_a + R_d + R_s;
-				my_mlx_pixel_put(&world->img, x, world->screen_height - y - 1, rgb2hex((int)(255 * R_r), 0, 0));
+				t_fcolor R_r = fcolor_add(fcolor_add(R_a, R_d), R_s);
+				my_mlx_pixel_put(&world->img, x, world->screen_height - y - 1, fcolor2hex(R_r));
 			}
 			else
 			{
