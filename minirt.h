@@ -113,6 +113,7 @@ double			deg2rad(int x);
 int				rad2deg(double x);
 uint32_t		rgb2hex(int r, int g, int b);
 uint32_t		fcolor2hex(t_fcolor fcolor);
+t_fcolor		init_fcolor(double red, double blue, double green);
 t_fcolor		fcolor_add(t_fcolor a, t_fcolor b);
 t_fcolor		fcolor_mult(t_fcolor a, t_fcolor b);
 t_fcolor		fcolor_mult_scalar(t_fcolor a, double b);

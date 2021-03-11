@@ -33,6 +33,15 @@ uint32_t	fcolor2hex(t_fcolor fcolor)
 	return (rgb2hex(fcolor.red * 255, fcolor.green * 255, fcolor.blue * 255));
 };
 
+t_fcolor	init_fcolor(double red, double blue, double green)
+{
+	t_fcolor new;
+	new.red = red;
+	new.blue = blue;
+	new.green = green;
+	return (new);
+}
+
 // fcolorの足し算. 各チャンネルごとに足す
 t_fcolor	fcolor_add(t_fcolor a, t_fcolor b)
 {
