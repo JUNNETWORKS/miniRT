@@ -84,6 +84,7 @@ typedef struct	s_sphere {
 typedef struct	s_plane {
   enum e_shape	type;
   t_vec3		center;
+  t_vec3		normal;
 }				t_plane;
 
 typedef struct	s_world {
@@ -92,7 +93,7 @@ typedef struct	s_world {
 	t_img		img;
 	int			screen_width;
 	int			screen_height;
-	void		*objects;
+	t_list		*objects;
 }				t_world;
 
 // MLX Utils
@@ -108,6 +109,9 @@ double			vec3_dot(t_vec3 a, t_vec3 b);
 t_vec3			vec3_cross(t_vec3 a, t_vec3 b);
 double			vec3_mag(t_vec3 a);
 t_vec3			vec3_normalize(t_vec3 a);
+// Objects
+t_sphere		*sphere_init(t_vec3 center, double radius);
+t_plane			*plane_init(t_vec3 center, t_vec3 normal);
 // Utils
 double			deg2rad(int x);
 int				rad2deg(double x);
