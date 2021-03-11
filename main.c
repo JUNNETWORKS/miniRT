@@ -54,6 +54,34 @@ t_intersection	calc_intersection(t_ray ray, t_object object)
 		return (calc_sphere_intersection(ray, object));
 }
 
+t_object		get_nearest_object(t_world world, t_ray ray)
+{
+	t_object	nearest_object;
+	t_object	current_object;
+	double		nearest_distance;
+	double		current_distance;
+	t_list		*current_lst;
+
+	nearest_distance = DBL_MAX;
+	nearest_object = *(t_object*)world.objects->content;
+	current_lst = world.objects;
+	while (current_lst)
+	{
+		current_object = *(t_object*)current_lst->content;
+		if (has_intersection(ray, current_object))
+		{
+			current_distance = (calc_intersection(ray, current_object)).distance;
+			if (current_distance >= 0 && current_distance <= nearest_distance)
+			{
+				nearest_object = current_object;
+				nearest_distance = current_distance;
+			}
+		}
+		current_lst = current_lst->next;
+	}
+	return (nearest_object);
+}
+
 int	raytracing(t_world *world)
 {
 	// 視点位置を表すベクトル
@@ -75,6 +103,8 @@ int	raytracing(t_world *world)
 			t_ray ray;
 			ray.start = camera_vec;
 			ray.direction = vec3_normalize(vec3_sub(screen_vec, camera_vec));
+
+			// もっと交点距離の短いオブジェクトを取得する
 
 			if (sphere_has_intersection(ray, sphere))
 			{
