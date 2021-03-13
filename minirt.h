@@ -50,16 +50,6 @@ typedef struct	s_fcolor {
 	double		blue;
 }				t_fcolor;
 
-// ライティングに関する情報を持つ構造体
-typedef struct	s_lighting {
-	// 光源までの距離
-	t_vec3		distance;
-	// ライティングの強度
-	t_fcolor	intensity;
-	// ライティングの方向
-	t_vec3 		direction;
-}				t_lightling;
-
 // 光源を表す構造体
 typedef struct	s_light {
 	// 光源の位置
