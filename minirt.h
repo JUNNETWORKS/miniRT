@@ -76,12 +76,20 @@ enum	e_shape {
 		TRIANGLE
 };
 
-typedef struct	s_object {
-  enum e_shape	type;
-  t_vec3		center;  // plane, sphere
-  t_vec3		normal;  // plane
-  double		radius;  // sphere
-}				t_object;
+typedef struct		s_material {
+	t_fcolor		kAmb;      // 環境光反射係数
+	t_fcolor		kDif;      // 拡散反射係数
+	t_fcolor		kSpe;      // 鏡面反射係数
+	float			shininess; // 光沢度
+}					t_material;
+
+typedef struct		s_object {
+	enum e_shape	type;
+	t_vec3			center;  // plane, sphere
+	t_vec3			normal;  // plane
+	double			radius;  // sphere
+	t_material		material;  // 材料の反射係数などを保持する
+}					t_object;
 
 typedef struct	s_world {
 	void		*mlx;
@@ -106,8 +114,8 @@ t_vec3			vec3_cross(t_vec3 a, t_vec3 b);
 double			vec3_mag(t_vec3 a);
 t_vec3			vec3_normalize(t_vec3 a);
 // Objects
-t_object		*sphere_init(t_vec3 center, double radius);
-t_object		*plane_init(t_vec3 center, t_vec3 normal);
+t_object		*sphere_init(t_vec3 center, double radius, t_material material);
+t_object		*plane_init(t_vec3 center, t_vec3 normal, t_material material);
 // Object's functions
 bool			sphere_has_intersection(t_ray ray, t_object sphere);
 t_intersection	calc_sphere_intersection(t_ray ray, t_object sphere);

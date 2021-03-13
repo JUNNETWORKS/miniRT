@@ -21,22 +21,40 @@ int		initialize_objects(t_world *world)
 {
 	t_object *object;
 
-	if (!(object = sphere_init(vec3_init(3, 0, 25), 1)) ||
+	if (!(object = sphere_init(vec3_init(3, 0, 25), 1,
+			material_init(fcolor_init(0.01, 0.01, 0.01),
+							fcolor_init(0.69, 0.0, 0.0),
+							fcolor_init(0.3, 0.3, 0.3)))) ||
 		!(ft_lstadd_back_new(&world->objects, object)))
 		return (put_and_return_err("failed malloc object"));
-	if (!(object = sphere_init(vec3_init(2, 0, 20), 1)) ||
+	if (!(object = sphere_init(vec3_init(2, 0, 20), 1,
+				material_init(fcolor_init(0.01, 0.01, 0.01),
+								fcolor_init(0.0, 0.69, 0.0),
+								fcolor_init(0.3, 0.3, 0.3)))) ||
 		!(ft_lstadd_back_new(&world->objects, object)))
 		return (put_and_return_err("failed malloc object"));
-	if (!(object = sphere_init(vec3_init(1, 0, 15), 1)) ||
+	if (!(object = sphere_init(vec3_init(1, 0, 15), 1,
+				material_init(fcolor_init(0.01, 0.01, 0.01),
+								fcolor_init(0.0, 0.0, 0.69),
+								fcolor_init(0.3, 0.3, 0.3)))) ||
 		!(ft_lstadd_back_new(&world->objects, object)))
 		return (put_and_return_err("failed malloc object"));
-	if (!(object = sphere_init(vec3_init(0, 0, 10), 1)) ||
+	if (!(object = sphere_init(vec3_init(0, 0, 10), 1,
+				material_init(fcolor_init(0.01, 0.01, 0.01),
+								fcolor_init(0.0, 0.69, 0.69),
+								fcolor_init(0.3, 0.3, 0.3)))) ||
+			!(ft_lstadd_back_new(&world->objects, object)))
+		return (put_and_return_err("failed malloc object"));
+	if (!(object = sphere_init(vec3_init(-1, 0, 5), 1,
+				material_init(fcolor_init(0.01, 0.01, 0.01),
+								fcolor_init(0.69, 0.0, 0.69),
+								fcolor_init(0.3, 0.3, 0.3)))) ||
 		!(ft_lstadd_back_new(&world->objects, object)))
 		return (put_and_return_err("failed malloc object"));
-	if (!(object = sphere_init(vec3_init(-1, 0, 5), 1)) ||
-		!(ft_lstadd_back_new(&world->objects, object)))
-		return (put_and_return_err("failed malloc object"));
-	if (!(object = plane_init(vec3_init(0, -1, 0), vec3_init(0, 1, 0))) ||
+	if (!(object = plane_init(vec3_init(0, -1, 0), vec3_init(0, 1, 0), 
+				material_init(fcolor_init(0.01, 0.01, 0.01),
+								fcolor_init(0.69, 0.69, 0.69),
+								fcolor_init(0.3, 0.3, 0.3)))) ||
 		!(ft_lstadd_back_new(&world->objects, object)))
 		return (put_and_return_err("failed malloc object"));
 	return (0);
@@ -85,22 +103,22 @@ int	raytracing(t_world *world)
 
 				// 拡散反射光R_dの計算
 				// 光源の強度I_i
-				t_fcolor I_i = init_fcolor(1.0, 1.0, 1.0);
+				t_fcolor I_i = fcolor_init(1.0, 1.0, 1.0);
 				// 拡散反射係数k_d
-				t_fcolor k_d = init_fcolor(0.69, 0.0, 0.0);
+				t_fcolor k_d = nearest_object_ptr->material.kDif;
 				// 拡散反射光の放射輝度R_d
 				t_fcolor R_d = fcolor_mult_scalar(fcolor_mult(k_d, I_i), ray_deg);
 
 				// 環境光の強度
-				t_fcolor I_a = init_fcolor(0.1, 0.1, 0.1);
+				t_fcolor I_a = fcolor_init(0.1, 0.1, 0.1);
 				// 環境光反射係数
-				t_fcolor k_a = init_fcolor(0.01, 0.01, 0.01);
+				t_fcolor k_a = nearest_object_ptr->material.kAmb;
 				// 環境光R_a
 				t_fcolor R_a = fcolor_mult(k_a, I_a);
 
 				// 鏡面反射光R_sの計算
 				// 鏡面反射係数k_s
-				t_fcolor k_s = init_fcolor(0.3, 0.3, 0.3);
+				t_fcolor k_s = nearest_object_ptr->material.kSpe;
 				// 光沢度α
 				double alpha = 8;
 				// 視線ベクトルの逆ベクトル
@@ -110,7 +128,7 @@ int	raytracing(t_world *world)
 				// 鏡面反射光の放射強度R_s
 				t_fcolor R_s = fcolor_mult_scalar(fcolor_mult(k_s, I_i), pow(vec3_dot(v, r), alpha));
 				if (vec3_dot(v, r) < 0)
-					R_s = init_fcolor(0, 0, 0);
+					R_s = fcolor_init(0, 0, 0);
 
 				// 最終的な輝度  (環境光 + 拡散反射光 + 鏡面反射光)
 				t_fcolor R_r = fcolor_add(fcolor_add(R_a, R_d), R_s);
@@ -118,7 +136,7 @@ int	raytracing(t_world *world)
 			}
 			else
 			{
-				my_mlx_pixel_put(&world->img, x, y, rgb2hex(50, 50, 50));
+				my_mlx_pixel_put(&world->img, x, y, 0X6594EC);
 			}
 		}
 	}

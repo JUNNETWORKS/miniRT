@@ -8,6 +8,7 @@ t_object		*plane_init(t_vec3 center, t_vec3 normal, t_material material)
 	plane->type = PLANE;
 	plane->center = center;
 	plane->normal = normal;
+	plane->material = material;
 	return (plane);
 }
 

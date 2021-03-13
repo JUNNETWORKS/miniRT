@@ -1,6 +1,6 @@
 #include "minirt.h"
 
-t_object		*sphere_init(t_vec3 center, double radius)
+t_object		*sphere_init(t_vec3 center, double radius, t_material material)
 {
 	t_object *sphere;
 	if (!(sphere = malloc(sizeof(t_object))))
@@ -8,6 +8,7 @@ t_object		*sphere_init(t_vec3 center, double radius)
 	sphere->type = SPHERE;
 	sphere->center = center;
 	sphere->radius = radius;
+	sphere->material = material;
 	return (sphere);
 }
 
