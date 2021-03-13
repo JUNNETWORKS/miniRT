@@ -132,12 +132,9 @@ t_object		*sphere_init(t_vec3 center, double radius, t_material material);
 t_object		*plane_init(t_vec3 center, t_vec3 normal, t_material material);
 t_light			*light_init(t_vec3 position, t_fcolor intensity);
 // Object's functions
-bool			sphere_has_intersection(t_ray ray, t_object sphere);
 t_intersection	calc_sphere_intersection(t_ray ray, t_object sphere);
-bool			plane_has_intersection(t_ray ray, t_object plane);
 t_intersection	calc_plane_intersection(t_ray ray, t_object plane);
 // calculations
-bool			has_intersection(t_ray ray, t_object object);
 t_intersection	calc_intersection(t_ray ray, t_object object);
 t_object		*get_nearest_object(t_world *world, t_ray ray);
 t_fcolor		calc_lighting_Rds(t_ray ray, t_object object, t_intersection intersection, t_light light);

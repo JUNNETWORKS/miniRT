@@ -1,13 +1,5 @@
 #include "minirt.h"
 
-bool			has_intersection(t_ray ray, t_object object)
-{
-	if (object.type == PLANE)
-		return (plane_has_intersection(ray, object));
-	else if (object.type == SPHERE)
-		return (sphere_has_intersection(ray, object));
-}
-
 t_intersection	calc_intersection(t_ray ray, t_object object)
 {
 	if (object.type == PLANE)
