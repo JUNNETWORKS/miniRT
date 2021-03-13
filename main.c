@@ -14,6 +14,7 @@ int		initialize_world(t_world *world)
 	world->img.width = world->screen_width;
 	world->img.height = world->screen_height;
 	world->objects = NULL;
+	world->lights = NULL;
 	return (0);
 }
 
@@ -57,6 +58,13 @@ int		initialize_objects(t_world *world)
 								fcolor_init(0.3, 0.3, 0.3)))) ||
 		!(ft_lstadd_back_new(&world->objects, object)))
 		return (put_and_return_err("failed malloc object"));
+	// 光源
+	t_light *light;
+	if (!(light = light_init(vec3_init(-5, 5, -5), fcolor_init(1.0, 1.0, 1.0))) ||
+		!(ft_lstadd_back_new(&world->lights, light)))
+		return (put_and_return_err("failed malloc light"));
+	// 環境光
+	world->ambient_intensity = fcolor_init(0.1, 0.1, 0.1);
 	return (0);
 }
 
@@ -92,46 +100,28 @@ int	raytracing(t_world *world)
 				if (intersection.distance < 0)
 					continue;
 
-				// 光の入射ベクトルの計算
-				t_vec3 l;
-				l = vec3_normalize(vec3_sub(light_vec, intersection.position));
-
-				double ray_deg = vec3_dot(intersection.normal, l);
-				// 法線ベクトルと入射ベクトルの成す角がπ/2を超えた時, 光は裏側から当たっているので反射は起きない
-				if (ray_deg < 0)
-					ray_deg = 0;
-
-				// 拡散反射光R_dの計算
-				// 光源の強度I_i
-				t_fcolor I_i = fcolor_init(1.0, 1.0, 1.0);
-				// 拡散反射係数k_d
-				t_fcolor k_d = nearest_object_ptr->material.kDif;
-				// 拡散反射光の放射輝度R_d
-				t_fcolor R_d = fcolor_mult_scalar(fcolor_mult(k_d, I_i), ray_deg);
-
+				t_list *current_light = world->lights;
+				// 拡散反射光(Diffuse) + 鏡面反射光(Specular)
+				t_fcolor R_ds = fcolor_init(0, 0, 0);
+				while (current_light)
+				{
+					// 物体表面の反射輝度(拡散反射光と鏡面反射光)の計算
+					t_fcolor current_R_ds = calc_lighting_Rds(ray,
+														*nearest_object_ptr,
+														intersection,
+														*(t_light*)current_light->content);
+					R_ds = fcolor_add(R_ds, current_R_ds);
+					current_light = current_light->next;
+				}
 				// 環境光の強度
-				t_fcolor I_a = fcolor_init(0.1, 0.1, 0.1);
+				t_fcolor I_a = world->ambient_intensity;
 				// 環境光反射係数
 				t_fcolor k_a = nearest_object_ptr->material.kAmb;
 				// 環境光R_a
 				t_fcolor R_a = fcolor_mult(k_a, I_a);
+				// 最終的な輝度  環境光 + (拡散反射光(Diffuse) + 鏡面反射光(Specular))
+				t_fcolor R_r = fcolor_add(R_a, R_ds);
 
-				// 鏡面反射光R_sの計算
-				// 鏡面反射係数k_s
-				t_fcolor k_s = nearest_object_ptr->material.kSpe;
-				// 光沢度α
-				double alpha = 8;
-				// 視線ベクトルの逆ベクトル
-				t_vec3 v = vec3_mult(ray.direction, -1);
-				// 入射光の正反射ベクトル
-				t_vec3 r = vec3_sub(vec3_mult(vec3_mult(intersection.normal, vec3_dot(intersection.normal, l)), 2), l);
-				// 鏡面反射光の放射強度R_s
-				t_fcolor R_s = fcolor_mult_scalar(fcolor_mult(k_s, I_i), pow(vec3_dot(v, r), alpha));
-				if (vec3_dot(v, r) < 0)
-					R_s = fcolor_init(0, 0, 0);
-
-				// 最終的な輝度  (環境光 + 拡散反射光 + 鏡面反射光)
-				t_fcolor R_r = fcolor_add(fcolor_add(R_a, R_d), R_s);
 				my_mlx_pixel_put(&world->img, x, y, fcolor2hex(R_r));
 			}
 			else
