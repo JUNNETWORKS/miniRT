@@ -58,6 +58,14 @@ typedef struct	s_lighting {
 	t_vec3 		direction;
 }				t_lightling;
 
+// 光源を表す構造体
+typedef struct	s_light {
+	// 光源の位置
+	t_vec3		position;
+	// ライティングの強度
+	t_fcolor	intensity;
+}				t_light;
+
 // 交点を表す構造体
 typedef struct	s_intersection {
 	// 交点までの距離
@@ -98,6 +106,8 @@ typedef struct	s_world {
 	int			screen_width;
 	int			screen_height;
 	t_list		*objects;
+	t_fcolor	ambient_intensity;
+	t_list		*lights;
 }				t_world;
 
 // MLX Utils
@@ -113,9 +123,10 @@ double			vec3_dot(t_vec3 a, t_vec3 b);
 t_vec3			vec3_cross(t_vec3 a, t_vec3 b);
 double			vec3_mag(t_vec3 a);
 t_vec3			vec3_normalize(t_vec3 a);
-// Objects
+// Initializers
 t_object		*sphere_init(t_vec3 center, double radius, t_material material);
 t_object		*plane_init(t_vec3 center, t_vec3 normal, t_material material);
+t_light			*light_init(t_vec3 position, t_fcolor intensity);
 // Object's functions
 bool			sphere_has_intersection(t_ray ray, t_object sphere);
 t_intersection	calc_sphere_intersection(t_ray ray, t_object sphere);
@@ -125,6 +136,7 @@ t_intersection	calc_plane_intersection(t_ray ray, t_object plane);
 bool			has_intersection(t_ray ray, t_object object);
 t_intersection	calc_intersection(t_ray ray, t_object object);
 t_object		*get_nearest_object(t_world *world, t_ray ray);
+t_fcolor		calc_lighting_Rds(t_ray ray, t_object object, t_intersection intersection, t_light light);
 // fcolor
 uint32_t		fcolor2hex(t_fcolor fcolor);
 t_fcolor		fcolor_init(double red, double green, double blue);

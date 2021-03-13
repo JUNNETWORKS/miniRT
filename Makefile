@@ -22,6 +22,8 @@ SRCS = main.c \
 	   plane.c \
 	   intersection.c \
 	   material.c \
+	   light.c \
+	   lighting.c \
 	   debug.c
 OBJS = $(SRCS:.c=.o)
 
