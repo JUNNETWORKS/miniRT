@@ -139,6 +139,7 @@ t_object		*get_nearest_object(t_world *world, t_ray ray);
 t_fcolor		calc_lighting_Rds(t_ray ray, t_object object, t_intersection intersection, t_light light);
 // fcolor
 uint32_t		fcolor2hex(t_fcolor fcolor);
+t_fcolor		fcolor_normalize(t_fcolor fcolor);
 t_fcolor		fcolor_init(double red, double green, double blue);
 t_fcolor		fcolor_add(t_fcolor a, t_fcolor b);
 t_fcolor		fcolor_mult(t_fcolor a, t_fcolor b);
