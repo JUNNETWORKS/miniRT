@@ -122,6 +122,31 @@ int	raytracing(t_world *world)
 														*nearest_object_ptr,
 														intersection,
 														*(t_light*)current_light->content);
+
+					// 交点から光源までのベクトルの計算
+					t_vec3 intersection2light;
+					intersection2light = vec3_sub(((t_light*)(current_light->content))->position, intersection.position);
+					// 入射ベクトル
+					t_vec3 l = vec3_normalize(intersection2light);
+					// シャドウレイ
+					// 始点は微小距離ずらすことで物体自身と交差が出ないようにする
+					t_ray shadow_ray;
+					shadow_ray.start = vec3_add(intersection.position, vec3_mult(l, EPSILON));
+					shadow_ray.direction = l;
+					// 交点から光源までの距離
+					double light_dist = vec3_mag(intersection2light) - EPSILON;
+					// シャドウベクトルが交点とぶつかる&&light_distより小さい ということは交点と光源との間に物体があるということ
+					t_list *current_object = world->objects;
+					while (current_object)
+					{
+						t_intersection inter = calc_intersection(shadow_ray, *(t_object*)current_object->content);
+						if (inter.has_intersection && inter.distance >= 0 && inter.distance <= light_dist)
+						{
+							current_R_ds = fcolor_init(0, 0, 0);
+							break;
+						}
+						current_object = current_object->next;
+					}
 					R_ds = fcolor_add(R_ds, current_R_ds);
 					current_light = current_light->next;
 				}

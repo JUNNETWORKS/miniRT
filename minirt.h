@@ -15,6 +15,8 @@
 # include <string.h>
 # include <float.h>
 
+# define EPSILON 1.0 / 512
+
 // Vector3D
 typedef struct	s_vec3 {
 	double		x;
