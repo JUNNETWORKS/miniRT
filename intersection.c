@@ -19,11 +19,11 @@ t_intersection	calc_intersection(t_ray ray, t_object object)
 // レイがどのオブジェクトとも交点を持たない時にNULLを返す
 t_object		*get_nearest_object(t_world *world, t_ray ray)
 {
-	t_object	*nearest_object;
-	t_object	*current_object;
-	double		nearest_distance;
-	double		current_distance;
-	t_list		*current_lst;
+	t_object			*nearest_object;
+	t_object			*current_object;
+	double				nearest_distance;
+	t_list				*current_lst;
+	t_intersection		intersection;
 
 	nearest_distance = INFINITY;
 	nearest_object = NULL;
@@ -31,13 +31,13 @@ t_object		*get_nearest_object(t_world *world, t_ray ray)
 	while (current_lst)
 	{
 		current_object = (t_object*)current_lst->content;
-		if (has_intersection(ray, *current_object))
+		intersection = calc_intersection(ray, *current_object);
+		if (intersection.has_intersection)
 		{
-			current_distance = (calc_intersection(ray, *current_object)).distance;
-			if (current_distance >= 0 && current_distance <= nearest_distance)
+			if (intersection.distance >= 0 && intersection.distance <= nearest_distance)
 			{
 				nearest_object = current_object;
-				nearest_distance = current_distance;
+				nearest_distance = intersection.distance;
 			}
 		}
 		current_lst = current_lst->next;

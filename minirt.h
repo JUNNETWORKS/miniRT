@@ -68,6 +68,8 @@ typedef struct	s_light {
 
 // 交点を表す構造体
 typedef struct	s_intersection {
+	// 交点が存在するか
+	bool		has_intersection;
 	// 交点までの距離
 	double		distance;
 	// 交点の位置

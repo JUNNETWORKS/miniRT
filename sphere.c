@@ -34,6 +34,13 @@ t_intersection	calc_sphere_intersection(t_ray ray, t_object sphere)
 	// 判別式
 	double d = b * b - 4 * a * c;
 
+	if (d < 0)
+	{
+		t_intersection intersection;
+		intersection.has_intersection = false;
+		return (intersection);
+	}
+
 	// レイと物体との交点の計算
 	double t = (-b - sqrt(d)) / (2 * a);
 
@@ -45,6 +52,7 @@ t_intersection	calc_sphere_intersection(t_ray ray, t_object sphere)
 	n = vec3_normalize(vec3_sub(p_i, sphere.center));
 
 	t_intersection intersection;
+	intersection.has_intersection = true;
 	intersection.distance = t;
 	intersection.normal = n;
 	intersection.position = p_i;

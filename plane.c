@@ -37,7 +37,14 @@ t_intersection	calc_plane_intersection(t_ray ray, t_object plane)
 
 	center2camera = vec3_sub(ray.start, plane.center);
 	d_n_dot = vec3_dot(vec3_mult(ray.direction, -1), plane.normal);
+	if (d_n_dot == 0)
+	{
+		t_intersection intersection;
+		intersection.has_intersection = false;
+		return (intersection);
+	}
 	t = vec3_dot(center2camera, plane.normal) / d_n_dot;
+	intersection.has_intersection = true;
 	intersection.distance = t;
 	// d_n_dot(cosθ)がマイナスだったらなす角が90°より大きいから法線ベクトルを逆向きになる
 	intersection.normal = d_n_dot > 0 ? plane.normal : vec3_mult(plane.normal, -1);
