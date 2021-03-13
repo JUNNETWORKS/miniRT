@@ -23,7 +23,7 @@ t_fcolor	calc_lighting_Rds(t_ray ray, t_object object, t_intersection intersecti
 				// 鏡面反射係数k_s
 				t_fcolor k_s = object.material.kSpe;
 				// 光沢度α
-				double alpha = 8;
+				double alpha = object.material.shininess;
 				// 視線ベクトルの逆ベクトル
 				t_vec3 v = vec3_mult(ray.direction, -1);
 				// 入射光の正反射ベクトル
@@ -33,7 +33,7 @@ t_fcolor	calc_lighting_Rds(t_ray ray, t_object object, t_intersection intersecti
 				if (vec3_dot(v, r) < 0)
 					R_s = fcolor_init(0, 0, 0);
 
-				// 最終的な輝度  (環境光 + 拡散反射光 + 鏡面反射光)
+				// 拡散反射光 + 鏡面反射光
 				t_fcolor R_ds = fcolor_add(R_d, R_s);
 				return (R_ds);
 }
