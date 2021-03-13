@@ -161,6 +161,8 @@ int main()
 	initialize_world(&world);
 	initialize_objects(&world);
 	print_world(&world);
+	mlx_hook(world.win, KeyPress, KeyPressMask, key_press_hook, &world);
+	mlx_hook(world.win, ClientMessage, 1L << 17, exit_world, &world);
 	mlx_loop_hook(world.mlx, &main_loop, &world);
 	mlx_loop(world.mlx);
 }

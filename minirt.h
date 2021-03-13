@@ -15,6 +15,16 @@
 # include <string.h>
 # include <float.h>
 
+// Key definitions
+# define KEY_q 113
+# define KEY_esc 65307
+# define KEY_w 119
+# define KEY_a 97
+# define KEY_s 115
+# define KEY_d 100
+# define KEY_rallow 65363
+# define KEY_lallow 65361
+
 # define EPSILON 1.0 / 512
 
 // Vector3D
@@ -138,6 +148,9 @@ t_fcolor		fcolor_mult(t_fcolor a, t_fcolor b);
 t_fcolor		fcolor_mult_scalar(t_fcolor a, double b);
 // material
 t_material		material_init(t_fcolor kAmb, t_fcolor kDif, t_fcolor kSpe, double shininess);
+// hooks
+int				key_press_hook(int keycode, t_world *world);
+int				exit_world(t_world *world);
 // Utils
 double			deg2rad(int x);
 int				rad2deg(double x);
