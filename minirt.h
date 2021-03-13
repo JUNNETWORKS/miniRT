@@ -145,7 +145,7 @@ t_fcolor		fcolor_add(t_fcolor a, t_fcolor b);
 t_fcolor		fcolor_mult(t_fcolor a, t_fcolor b);
 t_fcolor		fcolor_mult_scalar(t_fcolor a, double b);
 // material
-t_material		material_init(t_fcolor kAmb, t_fcolor kDif, t_fcolor kSpe);
+t_material		material_init(t_fcolor kAmb, t_fcolor kDif, t_fcolor kSpe, double shininess);
 // Utils
 double			deg2rad(int x);
 int				rad2deg(double x);

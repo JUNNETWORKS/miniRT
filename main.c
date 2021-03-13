@@ -25,37 +25,43 @@ int		initialize_objects(t_world *world)
 	if (!(object = sphere_init(vec3_init(3, 0, 25), 1,
 			material_init(fcolor_init(0.01, 0.01, 0.01),
 							fcolor_init(0.69, 0.0, 0.0),
-							fcolor_init(0.3, 0.3, 0.3)))) ||
+							fcolor_init(0.3, 0.3, 0.3),
+							8.0))) ||
 		!(ft_lstadd_back_new(&world->objects, object)))
 		return (put_and_return_err("failed malloc object"));
 	if (!(object = sphere_init(vec3_init(2, 0, 20), 1,
 				material_init(fcolor_init(0.01, 0.01, 0.01),
 								fcolor_init(0.0, 0.69, 0.0),
-								fcolor_init(0.3, 0.3, 0.3)))) ||
+								fcolor_init(0.3, 0.3, 0.3),
+								8.0))) ||
 		!(ft_lstadd_back_new(&world->objects, object)))
 		return (put_and_return_err("failed malloc object"));
 	if (!(object = sphere_init(vec3_init(1, 0, 15), 1,
 				material_init(fcolor_init(0.01, 0.01, 0.01),
 								fcolor_init(0.0, 0.0, 0.69),
-								fcolor_init(0.3, 0.3, 0.3)))) ||
+								fcolor_init(0.3, 0.3, 0.3),
+								8.0))) ||
 		!(ft_lstadd_back_new(&world->objects, object)))
 		return (put_and_return_err("failed malloc object"));
 	if (!(object = sphere_init(vec3_init(0, 0, 10), 1,
 				material_init(fcolor_init(0.01, 0.01, 0.01),
 								fcolor_init(0.0, 0.69, 0.69),
-								fcolor_init(0.3, 0.3, 0.3)))) ||
+								fcolor_init(0.3, 0.3, 0.3),
+								8.0))) ||
 			!(ft_lstadd_back_new(&world->objects, object)))
 		return (put_and_return_err("failed malloc object"));
 	if (!(object = sphere_init(vec3_init(-1, 0, 5), 1,
 				material_init(fcolor_init(0.01, 0.01, 0.01),
 								fcolor_init(0.69, 0.0, 0.69),
-								fcolor_init(0.3, 0.3, 0.3)))) ||
+								fcolor_init(0.3, 0.3, 0.3),
+								8.0))) ||
 		!(ft_lstadd_back_new(&world->objects, object)))
 		return (put_and_return_err("failed malloc object"));
 	if (!(object = plane_init(vec3_init(0, -1, 0), vec3_init(0, 1, 0), 
 				material_init(fcolor_init(0.01, 0.01, 0.01),
 								fcolor_init(0.69, 0.69, 0.69),
-								fcolor_init(0.3, 0.3, 0.3)))) ||
+								fcolor_init(0.3, 0.3, 0.3),
+								8.0))) ||
 		!(ft_lstadd_back_new(&world->objects, object)))
 		return (put_and_return_err("failed malloc object"));
 	// 光源
