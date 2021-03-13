@@ -128,6 +128,7 @@ t_intersection	calc_plane_intersection(t_ray ray, t_object plane);
 t_intersection	calc_intersection(t_ray ray, t_object object);
 t_object		*get_nearest_object(t_world *world, t_ray ray);
 t_fcolor		calc_lighting_Rds(t_ray ray, t_object object, t_intersection intersection, t_light light);
+bool			has_shadow(t_world *world, t_light light, t_intersection intersection);
 // fcolor
 uint32_t		fcolor2hex(t_fcolor fcolor);
 t_fcolor		fcolor_normalize(t_fcolor fcolor);
