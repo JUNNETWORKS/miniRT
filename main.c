@@ -69,7 +69,7 @@ int		initialize_objects(t_world *world)
 	if (!(light = light_init(vec3_init(-5, 5, -5), fcolor_init(0.5, 0.5, 0.5))) ||
 		!(ft_lstadd_back_new(&world->lights, light)))
 		return (put_and_return_err("failed malloc light"));
-	if (!(light = light_init(vec3_init(-5, 0, -5), fcolor_init(0.5, 0.5, 0.5))) ||
+	if (!(light = light_init(vec3_init(5, 0, -5), fcolor_init(0.5, 0.5, 0.5))) ||
 		!(ft_lstadd_back_new(&world->lights, light)))
 		return (put_and_return_err("failed malloc light"));
 	if (!(light = light_init(vec3_init(5, 20, -5), fcolor_init(0.5, 0.5, 0.5))) ||
