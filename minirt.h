@@ -117,15 +117,18 @@ t_intersection	calc_plane_intersection(t_ray ray, t_object plane);
 bool			has_intersection(t_ray ray, t_object object);
 t_intersection	calc_intersection(t_ray ray, t_object object);
 t_object		*get_nearest_object(t_world *world, t_ray ray);
+// fcolor
+uint32_t		fcolor2hex(t_fcolor fcolor);
+t_fcolor		fcolor_init(double red, double green, double blue);
+t_fcolor		fcolor_add(t_fcolor a, t_fcolor b);
+t_fcolor		fcolor_mult(t_fcolor a, t_fcolor b);
+t_fcolor		fcolor_mult_scalar(t_fcolor a, double b);
+// material
+t_material		material_init(t_fcolor kAmb, t_fcolor kDif, t_fcolor kSpe);
 // Utils
 double			deg2rad(int x);
 int				rad2deg(double x);
 uint32_t		rgb2hex(int r, int g, int b);
-uint32_t		fcolor2hex(t_fcolor fcolor);
-t_fcolor		init_fcolor(double red, double blue, double green);
-t_fcolor		fcolor_add(t_fcolor a, t_fcolor b);
-t_fcolor		fcolor_mult(t_fcolor a, t_fcolor b);
-t_fcolor		fcolor_mult_scalar(t_fcolor a, double b);
 uint32_t		alpha_blend(uint32_t dst, uint32_t src);
 void			put_error_msg(char *str);
 int				put_and_return_err(char *str);
@@ -135,6 +138,7 @@ size_t			ptrarr_len(void **ptrarr);
 void			free_ptrarr(void **ptrarr);
 void			free_ptrarr_and_assign_null(void ***ptrarr);
 void			free_and_assign_null(void **p);
+// Debug
 void			print_world(t_world *world);
 char			*get_type_name(enum e_shape type);
 void			print_vec3(t_vec3 vec);

@@ -33,12 +33,12 @@ uint32_t	fcolor2hex(t_fcolor fcolor)
 	return (rgb2hex(fcolor.red * 255, fcolor.green * 255, fcolor.blue * 255));
 };
 
-t_fcolor	init_fcolor(double red, double blue, double green)
+t_fcolor	fcolor_init(double red, double green, double blue)
 {
 	t_fcolor new;
 	new.red = red;
-	new.blue = blue;
 	new.green = green;
+	new.blue = blue;
 	return (new);
 }
 
