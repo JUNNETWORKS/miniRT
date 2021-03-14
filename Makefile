@@ -25,6 +25,8 @@ SRCS = main.c \
 	   light.c \
 	   lighting.c \
 	   hooks.c \
+	   load_rt.c \
+	   load_resolution.c \
 	   debug.c
 OBJS = $(SRCS:.c=.o)
 
