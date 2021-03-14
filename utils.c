@@ -51,7 +51,7 @@ double		ft_atof(char *str)
 	if (!str)
 		return 0;
 	sign = 1;
-	while (!ft_isdigit(*str))
+	while (!ft_isalnum(*str))
 	{
 		if (*str == '-')
 			sign = -1;
