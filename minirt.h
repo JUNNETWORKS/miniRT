@@ -151,6 +151,8 @@ t_material		material_init(t_fcolor kAmb, t_fcolor kDif, t_fcolor kSpe, double sh
 // hooks
 int				key_press_hook(int keycode, t_world *world);
 int				exit_world(t_world *world);
+// load rt file
+int		set_resolution(t_world *game, char *width_str, char *height_str);
 // Utils
 double			deg2rad(int x);
 int				rad2deg(double x);
@@ -164,6 +166,7 @@ size_t			ptrarr_len(void **ptrarr);
 void			free_ptrarr(void **ptrarr);
 void			free_ptrarr_and_assign_null(void ***ptrarr);
 void			free_and_assign_null(void **p);
+double			ft_atof(char *str);
 // Debug
 void			print_world(t_world *world);
 char			*get_type_name(enum e_shape type);

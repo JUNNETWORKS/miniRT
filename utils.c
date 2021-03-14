@@ -45,28 +45,27 @@ size_t		str_c_count(char *str, char c)
 double		ft_atof(char *str)
 {
 	double	ans;
-	char	**nums;
 
-	if (!str || get_split_size(str, '.') > 2)
+	if (!str)
 		return 0;
-	nums = ft_split(str, '.');
-	ans = 0;
 	// 整数部分
-	size_t i = 0;
-	while (i < ft_num_len(nums[0]) && ft_isdigit(nums[0][i]))
+	ans = 0;
+	while (ft_isdigit(*str))
 	{
-		ans += (nums[0][i] - '0') * pow(10, ft_num_len(nums[0]) - i - 1);
-		i++;
+		ans = ans * 10 + *str - '0';
+		str++;
 	}
-	if (ptrarr_len((void**)nums) == 1)
-		return (ans);
-	i = 0;
-	while(i < ft_num_len(nums[1]) && ft_isdigit(nums[1][i]))
+	double i = 0.1;
+	if (*str == '.')
 	{
-		ans += (nums[1][i] - '0') / pow(10, i + 1);
-		i++;
+		str++;
+		while(ft_isdigit(*str))
+		{
+			ans += (*str - '0') * i;
+			i *= 0.1;
+			str++;
+		}
 	}
-	free_ptrarr((void**)nums);
 	return (ans);
 }
 
