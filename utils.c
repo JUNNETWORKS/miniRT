@@ -45,17 +45,25 @@ size_t		str_c_count(char *str, char c)
 double		ft_atof(char *str)
 {
 	double	ans;
+	double	i;
+	int		sign;
 
 	if (!str)
 		return 0;
-	// 整数部分
+	sign = 1;
+	while (!ft_isdigit(*str))
+	{
+		if (*str == '-')
+			sign = -1;
+		str++;
+	}
 	ans = 0;
 	while (ft_isdigit(*str))
 	{
 		ans = ans * 10 + *str - '0';
 		str++;
 	}
-	double i = 0.1;
+	i = 0.1;
 	if (*str == '.')
 	{
 		str++;
@@ -66,10 +74,5 @@ double		ft_atof(char *str)
 			str++;
 		}
 	}
-	return (ans);
+	return (sign * ans);
 }
-
-
-
-
-
