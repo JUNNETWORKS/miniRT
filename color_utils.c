@@ -35,7 +35,7 @@ bool		is_valid_color(int r, int g, int b)
 	return (true);
 }
 
-uint32_t	get_color_from_rgbstr(char *rgbstr, uint32_t *color)
+uint32_t	get_rgbhex_from_rgbstr(uint32_t *color, char *rgbstr)
 {
 	char	**rgb;
 

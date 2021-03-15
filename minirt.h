@@ -159,6 +159,7 @@ double			deg2rad(int x);
 int				rad2deg(double x);
 uint32_t		rgb2hex(int r, int g, int b);
 uint32_t		alpha_blend(uint32_t dst, uint32_t src);
+uint32_t		get_rgbhex_from_rgbstr(uint32_t *color, char *rgbstr);
 void			put_error_msg(char *str);
 int				put_and_return_err(char *str);
 bool			str_all_true(char *str, int(*f)(int));
