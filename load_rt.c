@@ -105,7 +105,7 @@ int			set_plane(t_world *world, char **params)
 		get_vec3_from_str(&point, params[0]) == ERROR ||
 		get_vec3_from_str(&normal, params[1]) == ERROR ||
 		get_fcolor_from_rgbstr(&fcolor, params[2]) == ERROR)
-		return (put_and_return_err("Sphere is Misconfigured"));
+		return (put_and_return_err("Plane is Misconfigured"));
 	if (!(object = plane_init(vec3_init(0, -1, 0), vec3_init(0, 1, 0), 
 				material_init(fcolor_init(0.01, 0.01, 0.01),
 								fcolor_init(0.69, 0.69, 0.69),
@@ -140,6 +140,7 @@ int			load_rtfile_fd(t_world *world, int fd)
 	status = 0;
 	while (status >= 0 && (status = get_next_line(fd, &line)) == 1)
 	{
+		printf("input_line: %s\n", line);
 		status = !(params = ft_split(line, ' ')) ? ERROR : status;
 		if (status >= 0 && params[0] &&
 			ft_strnstr(params[0], "R", ft_strlen(params[0])))
