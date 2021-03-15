@@ -163,6 +163,7 @@ uint32_t		alpha_blend(uint32_t dst, uint32_t src);
 uint32_t		get_rgbhex_from_rgbstr(uint32_t *color, char *rgbstr);
 void			put_error_msg(char *str);
 int				put_and_return_err(char *str);
+int				put_and_exit_err(char *str);
 bool			str_all_true(char *str, int(*f)(int));
 size_t			str_c_count(char *str, char c);
 size_t			ptrarr_len(void **ptrarr);
