@@ -10,6 +10,51 @@ bool		is_valid_rtpath(char *path)
 			|| ft_strncmp(path + path_len - 3, ".rt", 3));
 }
 
+/*
+ * params = ["A", "intensity", "rgb"]
+ */
+int			set_ambient(t_world *world, char **params)
+{
+	t_fcolor fcolor;
+	double intensity;
+	if (ptrarr_len((void**)params) != 3)
+		return (put_and_return_err("Ambient is Misconfigured"));
+	intensity = ft_atof(params[0]);
+	if (get_fcolor_from_rgbstr(&fcolor, params[1]) == ERROR)
+		return (put_and_return_err("Ambient is Misconfigured"));
+	world->ambient_intensity = fcolor_mult_scalar(fcolor, intensity);
+	return (0);
+}
+
+int			set_camera(t_world *world, char *point, char *normal, char *fov)
+	// params = ["point", "normal", "fov"]
+{
+}
+
+int			set_light(t_world *world, char *point, char *intensity, char *rgb)
+{
+}
+
+int			set_sphere(t_world *world, char *point, char *diameter, char *rgb)
+{
+}
+
+int			set_plane(t_world *world, char *point, char *normal, char *rgb)
+{
+}
+
+int			set_square(t_world *world, char *point, char *normal, char *side_size, char *rgb)
+{
+}
+
+int			set_cylinder(t_world *world, char *point, char *normal, char *diameter, char *height, char *rgb)
+{
+}
+
+int			set_triangle(t_world *world, char *firstpoint, char *secondpoint, char *thirdpoint, char *rgb)
+{
+}
+
 int			load_rtfile_fd(t_world *world, int fd)
 {
 	char	*line;
@@ -25,10 +70,10 @@ int			load_rtfile_fd(t_world *world, int fd)
 			status = set_resolution(world, params[1], params[2]);
 		else if ((status >= 0 && params[0]) &&
 			(params[0][0] == 'A'))
-			status = set_ambient(world);  // TODO: 環境光
+			status = set_ambient(world, params[1], params[2]);  // TODO: 環境光
 		else if ((status >= 0 && params[0]) &&
 			(params[0][0] == 'l'))
-			status = set_light(world);  // TODO: 光源
+			status = set_light(world, params);  // TODO: 光源
 		else if ((status >= 0 && params[0])&&
 			params[0][0] == 'c')
 			status = set_camera(world);  // TODO: Camera
