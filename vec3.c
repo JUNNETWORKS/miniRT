@@ -66,7 +66,7 @@ int		get_vec3_from_str(t_vec3 *vec, char *str)
 	}
 	vec->x = ft_atof(xyz[0]);
 	vec->y = ft_atof(xyz[1]);
-	vec->y = ft_atof(xyz[2]);
+	vec->z = ft_atof(xyz[2]);
 	free_ptrarr((void**)xyz);
 	return (0);
 }
