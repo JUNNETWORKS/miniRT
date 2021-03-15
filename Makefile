@@ -14,6 +14,7 @@ SRCS = main.c \
 	   drawers.c \
 	   utils.c \
 	   color_utils.c \
+	   fcolor.c \
 	   error_utils.c \
 	   free_utils.c \
 	   mlx_utils.c \

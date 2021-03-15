@@ -27,58 +27,39 @@ uint32_t	rgb2hex(int r, int g, int b)
 	return (color);
 }
 
+bool		is_valid_color(int r, int g, int b)
+{
+	printf("rgb: (%d, %d, %d)\n", r, g, b);
+	if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
+		return (false);
+	return (true);
+}
+
+uint32_t	get_color_from_rgbstr(char *rgbstr, uint32_t *color)
+{
+	char	**rgb;
+
+	if (str_c_count(rgbstr, ',') != 2 || get_split_size(rgbstr, ',') != 3)
+		return (put_and_return_err("rgb is wrong"));
+	if (!(rgb = ft_split(rgbstr, ',')))
+		return (ERROR);
+	if (!str_all_true(rgb[0], ft_isdigit) ||
+			!str_all_true(rgb[1], ft_isdigit) ||
+			!str_all_true(rgb[2], ft_isdigit) ||
+			!is_valid_color(ft_atoi(rgb[0]), ft_atoi(rgb[1]), ft_atoi(rgb[2])) ||
+			(rgb[0][0] == '0' && rgb[0][1]) ||
+			(rgb[1][0] == '0' && rgb[1][1]) ||
+			(rgb[2][0] == '0' && rgb[2][1])){
+		free_ptrarr((void**)rgb);
+		return (ERROR);
+	}
+	*color = ft_atoi(rgb[0]) << 16 | ft_atoi(rgb[1]) << 8 | ft_atoi(rgb[2]);
+	free_ptrarr((void**)rgb);
+	return (0);
+}
+
 // 放射輝度から32bit色に変換する
 uint32_t	fcolor2hex(t_fcolor fcolor)
 {
 	return (rgb2hex(fcolor.red * 255, fcolor.green * 255, fcolor.blue * 255));
 };
-
-// 負の数は0に, 1.0より上は1.0にする
-t_fcolor	fcolor_normalize(t_fcolor fcolor)
-{
-	// 負の数は0にする
-	fcolor.red = fcolor.red < 0 ? 0.0 : fcolor.red;
-	fcolor.green = fcolor.green < 0 ? 0.0 : fcolor.green;
-	fcolor.blue = fcolor.blue < 0 ? 0.0 : fcolor.blue;
-	// 1.0より上は1.0にする
-	fcolor.red = fcolor.red > 1.0 ? 1.0 : fcolor.red;
-	fcolor.green = fcolor.green > 1.0 ? 1.0 : fcolor.green;
-	fcolor.blue = fcolor.blue > 1.0 ? 1.0 : fcolor.blue;
-	return (fcolor);
-}
-
-t_fcolor	fcolor_init(double red, double green, double blue)
-{
-	t_fcolor new;
-	new.red = red;
-	new.green = green;
-	new.blue = blue;
-	return (fcolor_normalize(new));
-}
-
-// fcolorの足し算. 各チャンネルごとに足す
-t_fcolor	fcolor_add(t_fcolor a, t_fcolor b)
-{
-	a.red += b.red;
-	a.green += b.green;
-	a.blue += b.blue;
-	return (fcolor_normalize(a));
-}
-
-// fcolorの掛け算. 各チャンネルごとに掛ける
-t_fcolor	fcolor_mult(t_fcolor a, t_fcolor b)
-{
-	a.red *= b.red;
-	a.green *= b.green;
-	a.blue *= b.blue;
-	return (fcolor_normalize(a));
-}
-
-// fcolorとスカラーの掛け算. 各チャンネルごとに掛ける
-t_fcolor	fcolor_mult_scalar(t_fcolor a, double b)
-{
-	a.red *= b;
-	a.green *= b;
-	a.blue *= b;
-	return (fcolor_normalize(a));
-}
