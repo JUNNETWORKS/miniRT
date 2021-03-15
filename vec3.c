@@ -60,6 +60,7 @@ int		get_vec3_from_str(t_vec3 *vec, char *str)
 	xyz = NULL;
 	if (!(xyz = ft_split(str, ',')) || ptrarr_len((void**)xyz) != 3)
 	{
+		printf("input str: %s\n", str);
 		free_ptrarr((void**)xyz);
 		return (put_and_return_err("failed parse string to vector"));
 	}
