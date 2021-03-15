@@ -152,15 +152,13 @@ int main(int argc, char **argv)
 			put_and_exit_err("argv is not \"--save\"");
 		if (configure_screen(&world, false))
 			return (EXIT_FAILURE);
-		draw_walls(&game);
-		draw_sprites(&game);
-		write_game2bmp(&game, "output.bmp");
+		// TODO: write bmp
 		exit(EXIT_SUCCESS);
 	}
-	if (configure_screen(&game, true))
+	if (configure_screen(&world, true))
 		return (EXIT_FAILURE);
 	initialize_world(&world);
-	initialize_objects(&world);
+	// initialize_objects(&world);
 	print_world(&world);
 	mlx_hook(world.win, KeyPress, KeyPressMask, key_press_hook, &world);
 	mlx_hook(world.win, ClientMessage, 1L << 17, exit_world, &world);

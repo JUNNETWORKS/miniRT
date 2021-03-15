@@ -178,7 +178,7 @@ int			load_rtfile_fd(t_world *world, int fd)
 }
 
 
-int			load_rt(t_world *world, char *path)
+int			load_rtfile(t_world *world, char *path)
 {
 	int		fd;
 	int		status;
