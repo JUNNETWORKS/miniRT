@@ -11,7 +11,7 @@ bool		is_valid_rtpath(char *path)
 }
 
 /*
- * params = ["A", "intensity", "rgb"]
+ * params = ["intensity", "rgb"]
  */
 int			set_ambient(t_world *world, char **params)
 {
@@ -26,15 +26,48 @@ int			set_ambient(t_world *world, char **params)
 	return (0);
 }
 
-int			set_camera(t_world *world, char *point, char *normal, char *fov)
-	// params = ["point", "normal", "fov"]
+/*
+ * params = ["point", "normal", "fov"]
+ */
+int			set_camera(t_world *world, char **params)
 {
+	t_vec3 point;
+	t_vec3 normal;
+	double fov;  // TODO: FOVについてはまだt_worldに無いので追加する
+
+	if (ptrarr_len((void**)params) != 3 ||
+		get_vec3_from_str(&point, params[0]) == ERROR ||
+		get_vec3_from_str(&normal, params[1]) == ERROR)
+		return (put_and_return_err("Camera is misconfigured"));
+	fov = ft_atof(params[2]);
+	return (0);
 }
 
-int			set_light(t_world *world, char *point, char *intensity, char *rgb)
+/*
+ * params = ["point", "intensity", "rgb"]
+ */
+int			set_light(t_world *world, char **params)
 {
+	t_light		*light;
+	t_vec3		point;
+	t_fcolor	fcolor;
+	double		intensity;
+
+	if (ptrarr_len((void**)params) != 3 ||
+		get_vec3_from_str(&point, params[0]) == ERROR ||
+		get_fcolor_from_rgbstr(&fcolor, params[2]) == ERROR)
+		return (put_and_return_err("Light is Misconfigured"));
+	intensity = ft_atof(params[1]);
+	fcolor = fcolor_mult_scalar(fcolor, intensity);
+	if (!(light = light_init(point, fcolor)) ||
+		!(ft_lstadd_back_new(&world->lights, light)))
+		return (put_and_return_err("failed malloc light"));
+	return (0);
 }
 
+/*
+ * params = ["point", "diameter", "rgb"]
+ */
 int			set_sphere(t_world *world, char *point, char *diameter, char *rgb)
 {
 }
@@ -70,7 +103,7 @@ int			load_rtfile_fd(t_world *world, int fd)
 			status = set_resolution(world, params[1], params[2]);
 		else if ((status >= 0 && params[0]) &&
 			(params[0][0] == 'A'))
-			status = set_ambient(world, params[1], params[2]);  // TODO: 環境光
+			status = set_ambient(world, params + 1);  // TODO: 環境光
 		else if ((status >= 0 && params[0]) &&
 			(params[0][0] == 'l'))
 			status = set_light(world, params);  // TODO: 光源
