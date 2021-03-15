@@ -52,17 +52,11 @@ double		ft_atof(char *str)
 		return 0;
 	sign = 1;
 	while (!ft_isalnum(*str))
-	{
-		if (*str == '-')
+		if (*str++ == '-')
 			sign = -1;
-		str++;
-	}
 	ans = 0;
 	while (ft_isdigit(*str))
-	{
-		ans = ans * 10 + *str - '0';
-		str++;
-	}
+		ans = ans * 10 + *str++ - '0';
 	i = 0.1;
 	if (*str == '.')
 	{
