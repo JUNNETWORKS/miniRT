@@ -106,9 +106,9 @@ int			set_plane(t_world *world, char **params)
 		get_vec3_from_str(&normal, params[1]) == ERROR ||
 		get_fcolor_from_rgbstr(&fcolor, params[2]) == ERROR)
 		return (put_and_return_err("Plane is Misconfigured"));
-	if (!(object = plane_init(vec3_init(0, -1, 0), vec3_init(0, 1, 0), 
+	if (!(object = plane_init(point, normal,
 				material_init(fcolor_init(0.01, 0.01, 0.01),
-								fcolor_init(0.69, 0.69, 0.69),
+								fcolor,
 								fcolor_init(0.3, 0.3, 0.3),
 								8.0))) ||
 		!(ft_lstadd_back_new(&world->objects, object)))
