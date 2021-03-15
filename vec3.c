@@ -51,3 +51,16 @@ t_vec3	vec3_normalize(t_vec3 a)
 	double mag = vec3_mag(a);
 	return (vec3_init(a.x / mag, a.y / mag, a.z / mag));
 }
+
+// 文字列をパースして*vecに値をセットする
+int		vec3_from_str(t_vec3 *vec, char *str)
+{
+	char **coordinates;
+
+	if (!(coordinates = ft_split(str, ',')) || ptrarr_len((void**)coordinates) != 3)
+		return (put_and_return_err("failed parse string to vector"));
+	vec->x = ft_atof(coordinates[0]);
+	vec->y = ft_atof(coordinates[1]);
+	vec->y = ft_atof(coordinates[2]);
+	return (0);
+}
