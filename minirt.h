@@ -147,6 +147,7 @@ t_fcolor		fcolor_init(double red, double green, double blue);
 t_fcolor		fcolor_add(t_fcolor a, t_fcolor b);
 t_fcolor		fcolor_mult(t_fcolor a, t_fcolor b);
 t_fcolor		fcolor_mult_scalar(t_fcolor a, double b);
+int				get_fcolor_from_rgbstr(t_fcolor *fcolor, char *rgbstr);
 // material
 t_material		material_init(t_fcolor kAmb, t_fcolor kDif, t_fcolor kSpe, double shininess);
 // hooks

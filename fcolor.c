@@ -49,3 +49,16 @@ t_fcolor	fcolor_mult_scalar(t_fcolor a, double b)
 	a.blue *= b;
 	return (fcolor_normalize(a));
 }
+
+// "r,g,b"をパースして*fcolorにt_fcolorを代入する
+int			get_fcolor_from_rgbstr(t_fcolor *fcolor, char *rgbstr)
+{
+	uint32_t	rgbhex;
+	if (get_rgbhex_from_rgbstr(&rgbhex, rgbstr) == ERROR)
+		return	(put_and_return_err("failed parse rgbstr"));
+	double red = (rgbhex >> 16 & 0xff) / 255;
+	double green = (rgbhex >> 8 & 0xff) / 255;
+	double blue = (rgbhex & 0xff) / 255;
+	*fcolor = fcolor_normalize(fcolor_init(red, green, blue));
+	return (0);
+}
