@@ -147,19 +147,19 @@ int			load_rtfile_fd(t_world *world, int fd)
 			status = set_resolution(world, params[1], params[2]);
 		else if ((status >= 0 && params[0]) &&
 			(ft_strlen(params[0]) == 1 && params[0][0] == 'A'))
-			status = set_ambient(world, params + 1);  // TODO: 環境光
+			status = set_ambient(world, params + 1);  // 環境光
 		else if ((status >= 0 && params[0]) &&
 			(ft_strlen(params[0]) == 1 && params[0][0] == 'l'))
-			status = set_light(world, params + 1);  // TODO: 光源
+			status = set_light(world, params + 1);  // 光源
 		else if ((status >= 0 && params[0]) &&
 			(ft_strlen(params[0]) == 1 && params[0][0] == 'c'))
-			status = set_camera(world, params + 1);  // TODO: Camera
+			status = set_camera(world, params + 1);  // Camera
 		else if ((status >= 0 && params[0]) &&
 			ft_strncmp(params[0], "sp", 3) == 0)
-			status = set_sphere(world, params + 1);  // TODO: Sphere
+			status = set_sphere(world, params + 1);  // Sphere
 		else if ((status >= 0 && params[0]) &&
 			ft_strncmp(params[0], "pl", 3) == 0)
-			status = set_plane(world, params + 1);  // TODO: Plane
+			status = set_plane(world, params + 1);  // Plane
 		/*
 		else if ((status >= 0 && params[0])&&
 			ft_strncmp(params[0], "sq", 3))
