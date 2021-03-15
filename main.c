@@ -157,7 +157,6 @@ int main(int argc, char **argv)
 	}
 	if (configure_screen(&world, true))
 		return (EXIT_FAILURE);
-	initialize_world(&world);
 	// initialize_objects(&world);
 	print_world(&world);
 	mlx_hook(world.win, KeyPress, KeyPressMask, key_press_hook, &world);
