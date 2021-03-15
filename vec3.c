@@ -53,7 +53,7 @@ t_vec3	vec3_normalize(t_vec3 a)
 }
 
 // 文字列をパースして*vecに値をセットする
-int		vec3_from_str(t_vec3 *vec, char *str)
+int		get_vec3_from_str(t_vec3 *vec, char *str)
 {
 	char **coordinates;
 

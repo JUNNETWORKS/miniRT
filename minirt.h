@@ -127,7 +127,7 @@ double			vec3_dot(t_vec3 a, t_vec3 b);
 t_vec3			vec3_cross(t_vec3 a, t_vec3 b);
 double			vec3_mag(t_vec3 a);
 t_vec3			vec3_normalize(t_vec3 a);
-int				vec3_from_str(t_vec3 *vec, char *str);
+int				get_vec3_from_str(t_vec3 *vec, char *str);
 // Initializers
 t_object		*sphere_init(t_vec3 center, double radius, t_material material);
 t_object		*plane_init(t_vec3 center, t_vec3 normal, t_material material);
