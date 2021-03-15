@@ -27,6 +27,8 @@
 
 # define EPSILON 1.0 / 512
 
+# define MIN(x, y) ((x) < (y) ? (x) : (y))
+
 // Vector3D
 typedef struct	s_vec3 {
 	double		x;
@@ -154,7 +156,12 @@ t_material		material_init(t_fcolor kAmb, t_fcolor kDif, t_fcolor kSpe, double sh
 int				key_press_hook(int keycode, t_world *world);
 int				exit_world(t_world *world);
 // load rt file
-int		set_resolution(t_world *game, char *width_str, char *height_str);
+int				load_rtfile(t_world *world, char *path);
+int				set_resolution(t_world *game, char *width_str, char *height_str);
+// world
+int				initialize_world(t_world *world);
+int				configure_window(t_world *world);
+int				configure_screen(t_world *world, bool has_window);
 // Utils
 double			deg2rad(int x);
 int				rad2deg(double x);

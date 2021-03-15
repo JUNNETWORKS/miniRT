@@ -1,23 +1,5 @@
 #include "minirt.h"
 
-int		initialize_world(t_world *world)
-{
-	world->mlx = mlx_init();
-	world->screen_width = 511;
-	world->screen_height = 511;
-	world->win = mlx_new_window(world->mlx,
-		world->screen_width, world->screen_height, "miniRT");
-	world->img.img = mlx_new_image(world->mlx,
-		world->screen_width, world->screen_height);
-	world->img.addr = mlx_get_data_addr(world->img.img,
-		&world->img.bits_per_pixel, &world->img.line_length, &world->img.endian);
-	world->img.width = world->screen_width;
-	world->img.height = world->screen_height;
-	world->objects = NULL;
-	world->lights = NULL;
-	return (0);
-}
-
 int		initialize_objects(t_world *world)
 {
 	t_object *object;
@@ -155,9 +137,28 @@ int	main_loop(t_world *world)
 	return (0);
 }
 
-int main()
+int main(int argc, char **argv)
 {
 	t_world world;
+
+	if (argc < 2 || argc > 3)
+		put_and_exit_err("args count is incorrect!");
+	if ((initialize_world(&world)) == ERROR ||
+		(load_rtfile(&world, argv[1])) == ERROR)
+		put_and_exit_err("Error is occured when load .rt file");
+	if (argc == 3)
+	{
+		if (ft_strncmp(argv[2], "--save", ft_strlen("--save") + 1))
+			put_and_exit_err("argv is not \"--save\"");
+		if (configure_screen(&world, false))
+			return (EXIT_FAILURE);
+		draw_walls(&game);
+		draw_sprites(&game);
+		write_game2bmp(&game, "output.bmp");
+		exit(EXIT_SUCCESS);
+	}
+	if (configure_screen(&game, true))
+		return (EXIT_FAILURE);
 	initialize_world(&world);
 	initialize_objects(&world);
 	print_world(&world);
