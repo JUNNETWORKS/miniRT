@@ -68,8 +68,26 @@ int			set_light(t_world *world, char **params)
 /*
  * params = ["coordinates", "diameter", "rgb"]
  */
-int			set_sphere(t_world *world, char *point, char *diameter, char *rgb)
+int			set_sphere(t_world *world, char **params)
 {
+	t_object	*object;
+	t_vec3		point;
+	double		diameter;
+	t_fcolor	fcolor;
+
+	if (ptrarr_len((void**)params) != 3 ||
+		get_vec3_from_str(&point, params[0]) == ERROR ||
+		get_fcolor_from_rgbstr(&fcolor, params[2]) == ERROR)
+		return (put_and_return_err("Sphere is Misconfigured"));
+	diameter = ft_atof(params[1]);
+	if (!(object = sphere_init(point, diameter / 2,
+			material_init(fcolor_init(0.01, 0.01, 0.01),
+							fcolor,
+							fcolor_init(0.3, 0.3, 0.3),
+							8.0))) ||
+		!(ft_lstadd_back_new(&world->objects, object)))
+		return (put_and_return_err("failed malloc object"));
+	return (0);
 }
 
 int			set_plane(t_world *world, char *point, char *normal, char *rgb)
