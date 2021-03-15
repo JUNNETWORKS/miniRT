@@ -56,9 +56,9 @@ int			get_fcolor_from_rgbstr(t_fcolor *fcolor, char *rgbstr)
 	uint32_t	rgbhex;
 	if (get_rgbhex_from_rgbstr(&rgbhex, rgbstr) == ERROR)
 		return	(put_and_return_err("failed parse rgbstr"));
-	double red = (rgbhex >> 16 & 0xff) / 255;
-	double green = (rgbhex >> 8 & 0xff) / 255;
-	double blue = (rgbhex & 0xff) / 255;
+	double red = (double)(rgbhex >> 16 & 0xff) / 255;
+	double green = (double)(rgbhex >> 8 & 0xff) / 255;
+	double blue = (double)(rgbhex & 0xff) / 255;
 	*fcolor = fcolor_normalize(fcolor_init(red, green, blue));
 	return (0);
 }
