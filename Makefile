@@ -12,6 +12,7 @@ HEADER_FILE = minirt.h
 SRCS = main.c \
 	   vec3.c \
 	   drawers.c \
+	   world.c \
 	   utils.c \
 	   color_utils.c \
 	   fcolor.c \
