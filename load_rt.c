@@ -17,7 +17,7 @@ int			set_ambient(t_world *world, char **params)
 {
 	t_fcolor fcolor;
 	double intensity;
-	if (ptrarr_len((void**)params) != 3)
+	if (ptrarr_len((void**)params) != 2)
 		return (put_and_return_err("Ambient is Misconfigured"));
 	intensity = ft_atof(params[0]);
 	if (get_fcolor_from_rgbstr(&fcolor, params[1]) == ERROR)
@@ -90,20 +90,45 @@ int			set_sphere(t_world *world, char **params)
 	return (0);
 }
 
-int			set_plane(t_world *world, char *point, char *normal, char *rgb)
+
+/*
+ * params = ["coordinates", "normal", "rgb"]
+ */
+int			set_plane(t_world *world, char **params)
 {
+	t_object	*object;
+	t_vec3		point;
+	t_vec3		normal;
+	t_fcolor	fcolor;
+
+	if (ptrarr_len((void**)params) != 3 ||
+		get_vec3_from_str(&point, params[0]) == ERROR ||
+		get_vec3_from_str(&normal, params[1]) == ERROR ||
+		get_fcolor_from_rgbstr(&fcolor, params[2]) == ERROR)
+		return (put_and_return_err("Sphere is Misconfigured"));
+	if (!(object = plane_init(vec3_init(0, -1, 0), vec3_init(0, 1, 0), 
+				material_init(fcolor_init(0.01, 0.01, 0.01),
+								fcolor_init(0.69, 0.69, 0.69),
+								fcolor_init(0.3, 0.3, 0.3),
+								8.0))) ||
+		!(ft_lstadd_back_new(&world->objects, object)))
+		return (put_and_return_err("failed malloc object"));
+	return (0);
 }
 
 int			set_square(t_world *world, char *point, char *normal, char *side_size, char *rgb)
 {
+	return (0);
 }
 
 int			set_cylinder(t_world *world, char *point, char *normal, char *diameter, char *height, char *rgb)
 {
+	return (0);
 }
 
 int			set_triangle(t_world *world, char *firstpoint, char *secondpoint, char *thirdpoint, char *rgb)
 {
+	return (0);
 }
 
 int			load_rtfile_fd(t_world *world, int fd)
@@ -124,16 +149,17 @@ int			load_rtfile_fd(t_world *world, int fd)
 			status = set_ambient(world, params + 1);  // TODO: 環境光
 		else if ((status >= 0 && params[0]) &&
 			(params[0][0] == 'l'))
-			status = set_light(world, params);  // TODO: 光源
+			status = set_light(world, params + 1);  // TODO: 光源
 		else if ((status >= 0 && params[0])&&
 			params[0][0] == 'c')
-			status = set_camera(world);  // TODO: Camera
+			status = set_camera(world, params + 1);  // TODO: Camera
 		else if ((status >= 0 && params[0])&&
 			ft_strncmp(params[0], "sp", 3))
-			status = set_camera(world);  // TODO: Sphere
+			status = set_camera(world, params + 1);  // TODO: Sphere
 		else if ((status >= 0 && params[0])&&
 			ft_strncmp(params[0], "pl", 3))
-			status = set_camera(world);  // TODO: Plane
+			status = set_camera(world, params + 1);  // TODO: Plane
+		/*
 		else if ((status >= 0 && params[0])&&
 			ft_strncmp(params[0], "sq", 3))
 			status = set_camera(world);  // TODO: Square
@@ -143,6 +169,7 @@ int			load_rtfile_fd(t_world *world, int fd)
 		else if ((status >= 0 && params[0])&&
 			ft_strncmp(params[0], "tr", 3))
 			status = set_camera(world);  // TODO: Triangle
+		*/
 		free_and_assign_null((void**)&line);
 		free_ptrarr((void**)params);
 	}
