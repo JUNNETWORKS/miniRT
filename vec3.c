@@ -55,12 +55,17 @@ t_vec3	vec3_normalize(t_vec3 a)
 // 文字列をパースして*vecに値をセットする
 int		get_vec3_from_str(t_vec3 *vec, char *str)
 {
-	char **coordinates;
+	char **xyz;
 
-	if (!(coordinates = ft_split(str, ',')) || ptrarr_len((void**)coordinates) != 3)
+	xyz = NULL;
+	if (!(xyz = ft_split(str, ',')) || ptrarr_len((void**)xyz) != 3)
+	{
+		free_ptrarr((void**)xyz);
 		return (put_and_return_err("failed parse string to vector"));
-	vec->x = ft_atof(coordinates[0]);
-	vec->y = ft_atof(coordinates[1]);
-	vec->y = ft_atof(coordinates[2]);
+	}
+	vec->x = ft_atof(xyz[0]);
+	vec->y = ft_atof(xyz[1]);
+	vec->y = ft_atof(xyz[2]);
+	free_ptrarr((void**)xyz);
 	return (0);
 }
