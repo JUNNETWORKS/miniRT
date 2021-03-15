@@ -27,7 +27,7 @@ int			set_ambient(t_world *world, char **params)
 }
 
 /*
- * params = ["point", "normal", "fov"]
+ * params = ["coordinates", "normal", "fov"]
  */
 int			set_camera(t_world *world, char **params)
 {
@@ -44,7 +44,7 @@ int			set_camera(t_world *world, char **params)
 }
 
 /*
- * params = ["point", "intensity", "rgb"]
+ * params = ["coordinates", "intensity", "rgb"]
  */
 int			set_light(t_world *world, char **params)
 {
@@ -66,7 +66,7 @@ int			set_light(t_world *world, char **params)
 }
 
 /*
- * params = ["point", "diameter", "rgb"]
+ * params = ["coordinates", "diameter", "rgb"]
  */
 int			set_sphere(t_world *world, char *point, char *diameter, char *rgb)
 {
