@@ -29,7 +29,7 @@ uint32_t	rgb2hex(int r, int g, int b)
 
 bool		is_valid_color(int r, int g, int b)
 {
-	printf("rgb: (%d, %d, %d)\n", r, g, b);
+	// printf("rgb: (%d, %d, %d)\n", r, g, b);
 	if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
 		return (false);
 	return (true);

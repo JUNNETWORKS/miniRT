@@ -140,7 +140,7 @@ int			load_rtfile_fd(t_world *world, int fd)
 	status = 0;
 	while (status >= 0 && (status = get_next_line(fd, &line)) == 1)
 	{
-		printf("input_line: %s\n", line);
+		// printf("input_line: %s\n", line);
 		status = !(params = ft_split(line, ' ')) ? ERROR : status;
 		if (status >= 0 && params[0] &&
 			ft_strnstr(params[0], "R", ft_strlen(params[0])))
