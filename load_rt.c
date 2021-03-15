@@ -155,10 +155,10 @@ int			load_rtfile_fd(t_world *world, int fd)
 			status = set_camera(world, params + 1);  // TODO: Camera
 		else if ((status >= 0 && params[0])&&
 			ft_strncmp(params[0], "sp", 3))
-			status = set_camera(world, params + 1);  // TODO: Sphere
+			status = set_sphere(world, params + 1);  // TODO: Sphere
 		else if ((status >= 0 && params[0])&&
 			ft_strncmp(params[0], "pl", 3))
-			status = set_camera(world, params + 1);  // TODO: Plane
+			status = set_plane(world, params + 1);  // TODO: Plane
 		/*
 		else if ((status >= 0 && params[0])&&
 			ft_strncmp(params[0], "sq", 3))
