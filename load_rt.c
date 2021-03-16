@@ -31,15 +31,19 @@ int			set_ambient(t_world *world, char **params)
  */
 int			set_camera(t_world *world, char **params)
 {
-	t_vec3 point;
-	t_vec3 normal;
+	t_vec3 pos;
+	t_vec3 orientation;
 	double fov;  // TODO: FOVについてはまだt_worldに無いので追加する
+	t_camera *camera;
 
 	if (ptrarr_len((void**)params) != 3 ||
-		get_vec3_from_str(&point, params[0]) == ERROR ||
-		get_vec3_from_str(&normal, params[1]) == ERROR)
+		get_vec3_from_str(&pos, params[0]) == ERROR ||
+		get_vec3_from_str(&orientation, params[1]) == ERROR)
 		return (put_and_return_err("Camera is misconfigured"));
 	fov = ft_atof(params[2]);
+	if (!(camera = camera_init(pos, orientation, fov)) ||
+		!(dlst_add_right_new(&world->cameras, (void*)camera)))
+		return (put_and_return_err("failed malloc"));
 	return (0);
 }
 
