@@ -61,12 +61,32 @@ t_dlist	*dlst_add_left_new(t_dlist **lst, void *content)
 
 void	dlst_clear(t_dlist **lst, void (*del)(void *))
 {
+	t_dlist *current;
+	t_dlist *first_el;
+	t_dlist *next_el;
 
+	if (!lst || !*lst)
+		return ;
+	first_el = *lst;
+	current = *lst;
+	while (current)
+	{
+		next_el = current->next;
+		dlst_delone(current, del);
+		current = next_el;
+		if (current == first_el)
+			break;
+	}
+	*lst = NULL;
 }
 
 void	dlst_delone(t_dlist *lst, void (*del)(void *))
 {
-
+	if (!lst)
+		return ;
+	if (del)
+		del(lst->content);
+	free(lst);
 }
 
 t_dlist	*dlst_new(void *content)
