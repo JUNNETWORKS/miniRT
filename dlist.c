@@ -22,12 +22,31 @@ t_dlist	*dlst_add_right(t_dlist **lst, t_dlist *newlst)
 
 t_dlist	*dlst_add_right_new(t_dlist **lst, void *content)
 {
+	t_dlist *newlst;
 
+	if (!(newlst = dlst_new(content)))
+		return (NULL);
+	return (dlst_add_right(lst, newlst));
 }
 
 t_dlist	*dlst_add_left(t_dlist **lst, t_dlist *newlst)
 {
-
+	if (!lst || !newlst)
+		return (NULL);
+	if (!*lst)  // 何も入ってなかった
+	{
+		*lst = newlst;
+		(*lst)->next = *lst;
+		(*lst)->prev = *lst;
+	}
+	else
+	{
+		newlst->next = *lst;
+		newlst->prev = (*lst)->prev;
+		(*lst)->prev->next = newlst;
+		(*lst)->prev = newlst;
+	}
+	return (*lst);
 }
 
 t_dlist	*dlst_add_left_new(t_dlist **lst, void *content)
