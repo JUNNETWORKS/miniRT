@@ -76,6 +76,7 @@ int	raytracing(t_world *world)
 			// スクリーン座標からワールド座標への変換
 			// x,yは[-1,1]へ変換する
 			// スクリーン上の点の三次元空間における位置を計算する
+			// TODO: カメラの向きによってスクリーンの向きや場所を変える
 			t_vec3 screen_vec;
 			screen_vec = vec3_init(2 * x / (world->screen_width - 1) - 1, -2 * y / (world->screen_height - 1) + 1, 0);
 
