@@ -2,6 +2,7 @@
 # define MINIRT_H
 # include "./minilibx-linux/mlx.h"
 # include "./libft/libft.h"
+# include "vec3.h"
 # include <X11/X.h>
 # include <sys/types.h>
 # include <sys/stat.h>
@@ -29,12 +30,6 @@
 
 # define MIN(x, y) ((x) < (y) ? (x) : (y))
 
-// Vector3D
-typedef struct	s_vec3 {
-	double		x;
-	double		y;
-	double		z;
-} t_vec3;
 
 // 描画するためのイメージ情報を保持
 typedef struct	s_img {
@@ -120,16 +115,6 @@ typedef struct	s_world {
 void			my_mlx_pixel_put(t_img *img, int x, int y, int color);
 uint32_t		get_color_from_img(t_img img, int x, int y);
 void			clear_img(t_img *img);
-// Vec3 Utils
-t_vec3			vec3_init(double x, double y, double z);
-t_vec3			vec3_add(t_vec3 a, t_vec3 b);
-t_vec3			vec3_sub(t_vec3 a, t_vec3 b);
-t_vec3			vec3_mult(t_vec3 a, double b);
-double			vec3_dot(t_vec3 a, t_vec3 b);
-t_vec3			vec3_cross(t_vec3 a, t_vec3 b);
-double			vec3_mag(t_vec3 a);
-t_vec3			vec3_normalize(t_vec3 a);
-int				get_vec3_from_str(t_vec3 *vec, char *str);
 // Initializers
 t_object		*sphere_init(t_vec3 center, double radius, t_material material);
 t_object		*plane_init(t_vec3 center, t_vec3 normal, t_material material);
