@@ -59,6 +59,11 @@ int		initialize_objects(t_world *world)
 		return (put_and_return_err("failed malloc light"));
 	// 環境光
 	world->ambient_intensity = fcolor_init(0.1, 0.1, 0.1);
+	// カメラ
+	t_camera *camera;
+	if (!(camera = camera_init(vec3_init(0, 0, -5), vec3_init(0, 0, 1), 66)) ||
+		!(dlst_add_right_new(&world->cameras, (void*)camera)))
+		return (put_and_return_err("failed malloc camera"));
 	return (0);
 }
 
@@ -67,6 +72,9 @@ int	raytracing(t_world *world)
 	// 視点位置を表すベクトル
 	t_vec3 camera_vec;
 	camera_vec = vec3_init(0, 0, -5);  // スクリーンの少し手前な感じ
+
+	t_camera camera;
+	camera = *(t_camera*)world->cameras->content;
 
 	// 点光源(light)
 	t_vec3 light_vec;
@@ -83,7 +91,7 @@ int	raytracing(t_world *world)
 			// レイ(光線)
 			t_ray ray;
 			ray.start = camera_vec;
-			ray.direction = vec3_normalize(vec3_sub(screen_vec, camera_vec));
+			ray.direction = vec3_normalize(vec3_sub(screen_vec, camera.pos));
 
 			// もっと交点距離の短いオブジェクトを取得する
 			t_object *nearest_object_ptr;
