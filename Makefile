@@ -13,6 +13,7 @@ SRCS = main.c \
 	   vec3.c \
 	   drawers.c \
 	   world.c \
+	   dlist.c \
 	   utils.c \
 	   color_utils.c \
 	   fcolor.c \
@@ -22,6 +23,7 @@ SRCS = main.c \
 	   ptrarr_utils.c \
 	   sphere.c \
 	   plane.c \
+	   camera.c \
 	   intersection.c \
 	   material.c \
 	   light.c \
