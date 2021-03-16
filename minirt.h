@@ -126,6 +126,7 @@ void			clear_img(t_img *img);
 t_object		*sphere_init(t_vec3 center, double radius, t_material material);
 t_object		*plane_init(t_vec3 center, t_vec3 normal, t_material material);
 t_light			*light_init(t_vec3 position, t_fcolor intensity);
+t_camera		*camera_init(t_vec3 pos, t_vec3 orientation, double fov);
 // Object's functions
 t_intersection	calc_sphere_intersection(t_ray ray, t_object sphere);
 t_intersection	calc_plane_intersection(t_ray ray, t_object plane);
