@@ -51,6 +51,11 @@ t_dlist	*dlst_add_left(t_dlist **lst, t_dlist *newlst)
 
 t_dlist	*dlst_add_left_new(t_dlist **lst, void *content)
 {
+	t_dlist *newlst;
+
+	if (!(newlst = dlst_new(content)))
+		return (NULL);
+	return (dlst_add_left(lst, newlst));
 
 }
 
