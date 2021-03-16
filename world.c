@@ -5,6 +5,7 @@ int		initialize_world(t_world *world)
 	world->mlx = mlx_init();
 	world->screen_height = 0;
 	world->screen_width = 0;
+	world->cameras = NULL;
 	world->objects = NULL;
 	world->lights = NULL;
 	return (0);

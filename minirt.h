@@ -3,6 +3,7 @@
 # include "./minilibx-linux/mlx.h"
 # include "./libft/libft.h"
 # include "vec3.h"
+# include "dlist.h"
 # include <X11/X.h>
 # include <sys/types.h>
 # include <sys/stat.h>
@@ -29,7 +30,6 @@
 # define EPSILON 1.0 / 512
 
 # define MIN(x, y) ((x) < (y) ? (x) : (y))
-
 
 // 描画するためのイメージ情報を保持
 typedef struct	s_img {
@@ -100,12 +100,19 @@ typedef struct		s_object {
 	t_material		material;  // 材料の反射係数などを保持する
 }					t_object;
 
+typedef struct		s_camera {
+	t_vec3			pos;
+	t_vec3			orientation;
+	double			fov;
+}					t_camera;
+
 typedef struct	s_world {
 	void		*mlx;
 	void		*win;
 	t_img		img;
 	int			screen_width;
 	int			screen_height;
+	t_dlist		*cameras;
 	t_list		*objects;
 	t_fcolor	ambient_intensity;
 	t_list		*lights;
