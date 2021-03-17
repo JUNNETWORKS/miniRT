@@ -53,6 +53,7 @@ uint32_t	get_rgbhex_from_rgbstr(uint32_t *color, char *rgbstr)
 		free_ptrarr((void**)rgb);
 		return (ERROR);
 	}
+	*color = 0;
 	*color = ft_atoi(rgb[0]) << 16 | ft_atoi(rgb[1]) << 8 | ft_atoi(rgb[2]);
 	free_ptrarr((void**)rgb);
 	return (0);
