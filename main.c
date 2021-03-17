@@ -61,7 +61,7 @@ int		initialize_objects(t_world *world)
 	world->ambient_intensity = fcolor_init(0.1, 0.1, 0.1);
 	// カメラ
 	t_camera *camera;
-	if (!(camera = camera_init(vec3_init(0, 0, -5), vec3_init(0, 0, 1), 66)) ||
+	if (!(camera = camera_init(world, vec3_init(0, 0, -5), vec3_init(0, 0, 1), 66)) ||
 		!(dlst_add_right_new(&world->cameras, (void*)camera)))
 		return (put_and_return_err("failed malloc camera"));
 	return (0);
@@ -72,27 +72,16 @@ int	raytracing(t_world *world)
 	t_camera camera;
 	camera = *(t_camera*)world->cameras->content;
 
-	double d = world->screen_width / 2 / tan(deg2rad(camera.fov / 2));  // カメラからスクリーンまでの距離
-	t_vec3 d_vec = vec3_mult(camera.orientation, d);  // カメラからスクリーンの中心へのベクトル
-
-	// スクリーンの基底ベクトル
-	t_vec3 screen_x;  // x軸と並行なベクトル(スクリーンの世界)
-	screen_x.x = d_vec.z / sqrt(d_vec.z * d_vec.z + d_vec.x * d_vec.x);
-	screen_x.y = 0;
-	screen_x.z = -d_vec.x / sqrt(d_vec.z * d_vec.z + d_vec.x * d_vec.x);
-	t_vec3 screen_y;
-	screen_y = vec3_normalize(vec3_cross(screen_x, vec3_mult(d_vec, -1)));
-
 	for (double x = 0; x < world->screen_width; x++){
 		for (double y = 0; y < world->screen_height; y++){
 			// スクリーン座標からワールド座標への変換
 			// スクリーン上の位置
 			double sw = x - (world->screen_width - 1) / 2;  // [-2/w ~ 2/w]
 			double sh = (world->screen_height - 1) / 2 - y;  // [-2/h ~ 2/h]
-			t_vec3 xx = vec3_mult(screen_x, sw);
-			t_vec3 yy = vec3_mult(screen_y, sh);
+			t_vec3 xx = vec3_mult(camera.x_basis, sw);
+			t_vec3 yy = vec3_mult(camera.y_basis, sh);
 			t_vec3 ray_direction;
-			ray_direction = vec3_normalize(vec3_add(d_vec, vec3_add(xx, yy)));
+			ray_direction = vec3_normalize(vec3_add(camera.d_center, vec3_add(xx, yy)));
 
 			// レイ(光線)
 			t_ray ray;

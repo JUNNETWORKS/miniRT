@@ -104,6 +104,9 @@ typedef struct		s_camera {
 	t_vec3			pos;
 	t_vec3			orientation;
 	double			fov;
+	t_vec3			x_basis;
+	t_vec3			y_basis;
+	t_vec3			d_center;  // カメラからスクリーンの中心へのベクトル
 }					t_camera;
 
 typedef struct	s_world {
@@ -126,7 +129,7 @@ void			clear_img(t_img *img);
 t_object		*sphere_init(t_vec3 center, double radius, t_material material);
 t_object		*plane_init(t_vec3 center, t_vec3 normal, t_material material);
 t_light			*light_init(t_vec3 position, t_fcolor intensity);
-t_camera		*camera_init(t_vec3 pos, t_vec3 orientation, double fov);
+t_camera		*camera_init(t_world *world, t_vec3 pos, t_vec3 orientation, double fov);
 // Object's functions
 t_intersection	calc_sphere_intersection(t_ray ray, t_object sphere);
 t_intersection	calc_plane_intersection(t_ray ray, t_object plane);

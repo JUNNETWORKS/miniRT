@@ -41,7 +41,7 @@ int			set_camera(t_world *world, char **params)
 		get_vec3_from_str(&orientation, params[1]) == ERROR)
 		return (put_and_return_err("Camera is misconfigured"));
 	fov = ft_atof(params[2]);
-	if (!(camera = camera_init(pos, orientation, fov)) ||
+	if (!(camera = camera_init(world, pos, orientation, fov)) ||
 		!(dlst_add_right_new(&world->cameras, (void*)camera)))
 		return (put_and_return_err("failed malloc"));
 	return (0);
