@@ -86,12 +86,8 @@ int	raytracing(t_world *world)
 	double aspect = world->screen_width / world->screen_height;
 	double w = h * aspect;
 	t_vec3 u_vec, v_vec, w_vec;
-	u_vec = vec3_mult(X, w);
-	v_vec = vec3_mult(Y, h);
-	t_vec3 wX = vec3_mult(X, w);
-	t_vec3 hY = vec3_mult(Y, h);
-	// w = o - wX - hY - Z
-	// w_vec = vec3_sub(vec3_sub(vec3_sub(camera.pos, wX), hY), Z);
+	u_vec = vec3_mult(X, w);  // 仮想スクリーンの幅の半分
+	v_vec = vec3_mult(Y, h);  // 仮想スクリーンの高さの半分
 
 	// 点光源(light)
 	t_vec3 light_vec;
