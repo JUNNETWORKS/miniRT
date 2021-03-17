@@ -83,10 +83,12 @@ int	raytracing(t_world *world)
 	Y = vec3_normalize(vec3_cross(Z, X));
 	// スクリーンの基底ベクトルu,v,w
 	t_vec3 u_vec, v_vec, w_vec;
-	u_vec = vec3_mult(X, world->screen_height - 1);
+	u_vec = vec3_mult(X, world->screen_width - 1);
 	v_vec = vec3_mult(Y, world->screen_height - 1);
-	t_vec3 wX = vec3_mult(X, world->screen_width / 2 - 1);
-	t_vec3 hY = vec3_mult(Y, world->screen_height / 2 - 1);
+	double h = tan(deg2rad(camera.fov) / 2);
+	double aspect = world->screen_width / world->screen_height;
+	t_vec3 wX = vec3_mult(X, h * aspect);
+	t_vec3 hY = vec3_mult(Y, h);
 	// w = o - wX - hY - Z
 	w_vec = vec3_sub(vec3_sub(vec3_sub(camera.pos, wX), hY), Z);
 
@@ -96,6 +98,7 @@ int	raytracing(t_world *world)
 	for (double x = 0; x < world->screen_width; x++){
 		for (double y = 0; y < world->screen_height; y++){
 			// スクリーン座標からワールド座標への変換
+			// x,yは[0,1]へ変換する
 			// スクリーン上の位置
 			t_vec3 screen_vec;
 			double u = x / (world->screen_width - 1);  // スクリーン上での座標[0.0-1.0]
