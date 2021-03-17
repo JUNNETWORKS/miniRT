@@ -79,18 +79,19 @@ int	raytracing(t_world *world)
 	// カメラにおける正規直交ベクトルXYZ
 	t_vec3 X, Y, Z;
 	Z = vec3_normalize(camera.orientation);
-	X = vec3_normalize(vec3_cross(Z, vec3_init(0, 1, 0)));
-	Y = vec3_normalize(vec3_cross(Z, X));
+	X = vec3_normalize(vec3_cross(vec3_init(0, 1, 0), Z));
+	Y = vec3_normalize(vec3_cross(X, Z));
 	// スクリーンの基底ベクトルu,v,w
-	double h = tan(deg2rad(camera.fov) / 2);
+	double h = tan(deg2rad(camera.fov) / 2.0);
 	double aspect = world->screen_width / world->screen_height;
+	double w = h * aspect;
 	t_vec3 u_vec, v_vec, w_vec;
-	u_vec = vec3_mult(X, 2 * h * aspect);
-	v_vec = vec3_mult(Y, 2 * h);
-	t_vec3 wX = vec3_mult(X, h * aspect);
+	u_vec = vec3_mult(X, w);
+	v_vec = vec3_mult(Y, h);
+	t_vec3 wX = vec3_mult(X, w);
 	t_vec3 hY = vec3_mult(Y, h);
 	// w = o - wX - hY - Z
-	w_vec = vec3_sub(vec3_sub(vec3_sub(camera.pos, wX), hY), Z);
+	// w_vec = vec3_sub(vec3_sub(vec3_sub(camera.pos, wX), hY), Z);
 
 	// 点光源(light)
 	t_vec3 light_vec;
@@ -98,12 +99,12 @@ int	raytracing(t_world *world)
 	for (double x = 0; x < world->screen_width; x++){
 		for (double y = 0; y < world->screen_height; y++){
 			// スクリーン座標からワールド座標への変換
-			// x,yは[0,1]へ変換する
+			// x,yは[-1,1]へ変換する
 			// スクリーン上の位置
 			t_vec3 screen_vec;
-			double u = x / (world->screen_width - 1);  // スクリーン上での座標[0.0-1.0]
-			double v = y / (world->screen_height - 1);  // スクリーン上での座標[0.0-1.0]
-			screen_vec = vec3_add(vec3_add(vec3_mult(u_vec, u), vec3_mult(v_vec, v)), w_vec);
+			double u = 2 * x / (world->screen_width - 1) - 1;  // スクリーン上での座標[-1.0~1.0]
+			double v = 2 * y / (world->screen_height - 1) - 1;  // スクリーン上での座標[-1.0~1.0]
+			screen_vec = vec3_add(vec3_mult(u_vec, u), vec3_mult(v_vec, v));
 
 			// レイ(光線)
 			t_ray ray;
