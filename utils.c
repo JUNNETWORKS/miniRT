@@ -1,8 +1,8 @@
 #include "minirt.h"
 
-double	deg2rad(int x)
+double	deg2rad(double x)
 {
-	return ((double)x / 180 * M_PI);
+	return (x / 180 * M_PI);
 }
 
 int	rad2deg(double x)

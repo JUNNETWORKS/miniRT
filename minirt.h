@@ -156,7 +156,7 @@ int				initialize_world(t_world *world);
 int				configure_window(t_world *world);
 int				configure_screen(t_world *world, bool has_window);
 // Utils
-double			deg2rad(int x);
+double			deg2rad(double x);
 int				rad2deg(double x);
 uint32_t		rgb2hex(int r, int g, int b);
 uint32_t		alpha_blend(uint32_t dst, uint32_t src);
