@@ -69,51 +69,35 @@ int		initialize_objects(t_world *world)
 
 int	raytracing(t_world *world)
 {
-	// 視点位置を表すベクトル
-	t_vec3 camera_vec;
-	camera_vec = vec3_init(0, 0, -5);  // スクリーンの少し手前な感じ
-
 	t_camera camera;
 	camera = *(t_camera*)world->cameras->content;
 
-	// カメラにおける正規直交ベクトルXYZ
-	t_vec3 X, Y, Z;
-	Z = vec3_normalize(camera.orientation);
-	X = vec3_normalize(vec3_cross(vec3_init(0, 1, 0), Z));
-	Y = vec3_normalize(vec3_cross(X, Z));
-	// スクリーンの基底ベクトルu,v,w
-	double half_h = tan(deg2rad(camera.fov) / 2.0);
-	double aspect = world->screen_width / world->screen_height;
-	double half_w = half_h * aspect;
-	t_vec3 u_vec, v_vec, w_vec;
-	u_vec = vec3_mult(X, 2 * half_w);
-	v_vec = vec3_mult(Y, 2 * half_h);
-	t_vec3 wX = vec3_mult(X, half_w);
-	t_vec3 hY = vec3_mult(Y, half_h);
-	// w = o - wX - hY - Z
-	w_vec = vec3_add(vec3_sub(vec3_sub(camera.pos, wX), hY), Z);
-	printf("Z: ");print_vec3(Z);printf("\n");
-	printf("w_vec: ");print_vec3(w_vec);printf("\n");
+	double d = world->screen_width / 2 / tan(deg2rad(camera.fov / 2));  // カメラからスクリーンまでの距離
+	t_vec3 d_vec = vec3_mult(camera.orientation, d);  // カメラからスクリーンの中心へのベクトル
 
-	// 点光源(light)
-	t_vec3 light_vec;
-	light_vec = vec3_init(-5, 5, -5);
+	// スクリーンの基底ベクトル
+	t_vec3 screen_x;  // x軸と並行なベクトル(スクリーンの世界)
+	screen_x.x = d_vec.z / sqrt(d_vec.z * d_vec.z + d_vec.x * d_vec.x);
+	screen_x.y = 0;
+	screen_x.z = -d_vec.x / sqrt(d_vec.z * d_vec.z + d_vec.x * d_vec.x);
+	t_vec3 screen_y;
+	screen_y = vec3_normalize(vec3_cross(screen_x, vec3_mult(d_vec, -1)));
+
 	for (double x = 0; x < world->screen_width; x++){
 		for (double y = 0; y < world->screen_height; y++){
 			// スクリーン座標からワールド座標への変換
-			// x,yは[0,1]へ変換する
 			// スクリーン上の位置
-			t_vec3 screen_vec;
-			double u = x / (world->screen_width - 1);
-			double v = y / (world->screen_height - 1);
-			screen_vec = vec3_add(vec3_add(vec3_mult(u_vec, u), vec3_mult(v_vec, v)), w_vec);
-			// printf("screen: ");print_vec3(screen_vec);printf("\n");
-			// screen_vec = vec3_add(vec3_mult(u_vec, u), vec3_mult(v_vec, v));
+			double sw = x - (world->screen_width - 1) / 2;  // [-2/w ~ 2/w]
+			double sh = (world->screen_height - 1) / 2 - y;  // [-2/h ~ 2/h]
+			t_vec3 xx = vec3_mult(screen_x, sw);
+			t_vec3 yy = vec3_mult(screen_y, sh);
+			t_vec3 ray_direction;
+			ray_direction = vec3_normalize(vec3_add(d_vec, vec3_add(xx, yy)));
 
 			// レイ(光線)
 			t_ray ray;
-			ray.start = camera_vec;
-			ray.direction = vec3_normalize(vec3_sub(screen_vec, camera.pos));
+			ray.start = camera.pos;
+			ray.direction = ray_direction;
 
 			// もっと交点距離の短いオブジェクトを取得する
 			t_object *nearest_object_ptr;
