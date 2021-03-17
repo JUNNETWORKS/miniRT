@@ -25,4 +25,3 @@ t_camera	*camera_init(t_world *world, t_vec3 pos, t_vec3 orientation, double fov
 	camera->y_basis = y_basis;
 	return (camera);
 }
-

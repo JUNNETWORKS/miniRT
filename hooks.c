@@ -8,9 +8,11 @@ int 			key_press_hook(int keycode, t_world *world)
 		exit(0);
 	}
 	if (keycode == KEY_lallow)
-		printf("LEFT\n");  // TODO: カメラの切り替え
+		if (world->cameras)
+			world->cameras = world->cameras->next;
 	if (keycode == KEY_rallow)
-		printf("RIGHT\n");  // TODO: カメラの切り替え
+		if (world->cameras)
+			world->cameras = world->cameras->prev;
 	return (0);
 }
 
