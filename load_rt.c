@@ -33,7 +33,7 @@ int			set_camera(t_world *world, char **params)
 {
 	t_vec3 pos;
 	t_vec3 orientation;
-	double fov;  // TODO: FOVについてはまだt_worldに無いので追加する
+	double fov;
 	t_camera *camera;
 
 	if (ptrarr_len((void**)params) != 3 ||
