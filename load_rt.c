@@ -130,8 +130,30 @@ int			set_cylinder(t_world *world, char *point, char *normal, char *diameter, ch
 	return (0);
 }
 
-int			set_triangle(t_world *world, char *firstpoint, char *secondpoint, char *thirdpoint, char *rgb)
+/*
+ * params = [firstpoint, secondpoint, thirdpoint, rgb]
+ */
+int			set_triangle(t_world *world, char **params)
 {
+	t_object	*object;
+	t_vec3		p1;
+	t_vec3		p2;
+	t_vec3		p3;
+	t_fcolor	fcolor;
+
+	if (ptrarr_len((void**)params) != 4 ||
+		get_vec3_from_str(&p1, params[0]) == ERROR ||
+		get_vec3_from_str(&p2, params[1]) == ERROR ||
+		get_vec3_from_str(&p3, params[2]) == ERROR ||
+		get_fcolor_from_rgbstr(&fcolor, params[3]) == ERROR)
+		return (put_and_return_err("Triangle is Misconfigured"));
+	if (!(object = triangle_init(p1, p2, p3,
+				material_init(fcolor_init(0.01, 0.01, 0.01),
+								fcolor,
+								fcolor_init(0.3, 0.3, 0.3),
+								8.0))) ||
+		!(ft_lstadd_back_new(&world->objects, object)))
+		return (put_and_return_err("failed malloc object"));
 	return (0);
 }
 
@@ -171,10 +193,10 @@ int			load_rtfile_fd(t_world *world, int fd)
 		else if ((status >= 0 && params[0])&&
 			ft_strncmp(params[0], "cy", 3))
 			status = set_camera(world);  // TODO: Cylinder
+			*/
 		else if ((status >= 0 && params[0])&&
 			ft_strncmp(params[0], "tr", 3))
-			status = set_camera(world);  // TODO: Triangle
-		*/
+			status = set_triangle(world, params + 1);  // Triangle
 		free_and_assign_null((void**)&line);
 		free_ptrarr((void**)params);
 	}
