@@ -20,9 +20,12 @@ static bool		is_point_in_triangle(t_vec3 point, t_object triangle)
 	t_vec3	cross_2;
 	t_vec3	cross_3;
 
-	cross_1 = vec3_normalize(vec3_cross(vec3_sub(triangle.p3, triangle.p1), vec3_sub(point, triangle.p1)));
-	cross_2 = vec3_normalize(vec3_cross(vec3_sub(triangle.p1, triangle.p2), vec3_sub(point, triangle.p2)));
-	cross_3 = vec3_normalize(vec3_cross(vec3_sub(triangle.p2, triangle.p3), vec3_sub(point, triangle.p3)));
+	cross_1 = vec3_cross(vec3_sub(triangle.p3, triangle.p1), vec3_sub(point, triangle.p1));
+	cross_2 = vec3_cross(vec3_sub(triangle.p1, triangle.p2), vec3_sub(point, triangle.p2));
+	cross_3 = vec3_cross(vec3_sub(triangle.p2, triangle.p3), vec3_sub(point, triangle.p3));
+	cross_1 = vec3_normalize(cross_1);
+	cross_2 = vec3_normalize(cross_2);
+	cross_3 = vec3_normalize(cross_3);
 
 	// 外積がそれぞれ同じ方向を向いているか
 	bool	check1, check2, check3;
