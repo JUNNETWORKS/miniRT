@@ -137,7 +137,7 @@ int			set_square(t_world *world, char **params)
 		get_fcolor_from_rgbstr(&fcolor, params[3]) == ERROR)
 		return (put_and_return_err("Square is Misconfigured"));
 	side_size = ft_atof(params[2]);
-	if (!(object = square_init(point, normal, side_size,
+	if (!(object = square_init(point, vec3_normalize(normal), side_size,
 				material_init(fcolor_init(0.01, 0.01, 0.01),
 								fcolor,
 								fcolor_init(0.3, 0.3, 0.3),
