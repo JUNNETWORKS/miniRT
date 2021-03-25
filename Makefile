@@ -23,6 +23,7 @@ SRCS = main.c \
 	   ptrarr_utils.c \
 	   sphere.c \
 	   plane.c \
+	   triangle.c \
 	   camera.c \
 	   intersection.c \
 	   material.c \
