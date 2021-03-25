@@ -188,14 +188,14 @@ int			load_rtfile_fd(t_world *world, int fd)
 			status = set_plane(world, params + 1);  // Plane
 		/*
 		else if ((status >= 0 && params[0])&&
-			ft_strncmp(params[0], "sq", 3))
+			ft_strncmp(params[0], "sq", 3) == 0)
 			status = set_camera(world);  // TODO: Square
 		else if ((status >= 0 && params[0])&&
-			ft_strncmp(params[0], "cy", 3))
+			ft_strncmp(params[0], "cy", 3) == 0)
 			status = set_camera(world);  // TODO: Cylinder
 			*/
 		else if ((status >= 0 && params[0])&&
-			ft_strncmp(params[0], "tr", 3))
+			ft_strncmp(params[0], "tr", 3) == 0)
 			status = set_triangle(world, params + 1);  // Triangle
 		free_and_assign_null((void**)&line);
 		free_ptrarr((void**)params);
