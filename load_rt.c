@@ -41,7 +41,7 @@ int			set_camera(t_world *world, char **params)
 		get_vec3_from_str(&orientation, params[1]) == ERROR)
 		return (put_and_return_err("Camera is misconfigured"));
 	fov = ft_atof(params[2]);
-	if (!(camera = camera_init(world, pos, orientation, fov)) ||
+	if (!(camera = camera_init(world, pos, vec3_normalize(orientation), fov)) ||
 		!(dlst_add_right_new(&world->cameras, (void*)camera)))
 		return (put_and_return_err("failed malloc"));
 	return (0);
@@ -110,7 +110,7 @@ int			set_plane(t_world *world, char **params)
 		get_vec3_from_str(&normal, params[1]) == ERROR ||
 		get_fcolor_from_rgbstr(&fcolor, params[2]) == ERROR)
 		return (put_and_return_err("Plane is Misconfigured"));
-	if (!(object = plane_init(point, normal,
+	if (!(object = plane_init(point, vec3_normalize(normal),
 				material_init(fcolor_init(0.01, 0.01, 0.01),
 								fcolor,
 								fcolor_init(0.3, 0.3, 0.3),
