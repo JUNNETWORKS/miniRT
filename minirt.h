@@ -94,9 +94,10 @@ typedef struct		s_material {
 
 typedef struct		s_object {
 	enum e_shape	type;
-	t_vec3			center;  // plane, sphere
-	t_vec3			normal;  // plane
+	t_vec3			center;  // plane, sphere, square
+	t_vec3			normal;  // plane, square
 	double			radius;  // sphere
+	double			side_size;  // square
 	t_material		material;  // 材料の反射係数などを保持する
 	t_vec3			p1;      // triangle
 	t_vec3			p2;      // triangle
@@ -132,6 +133,7 @@ void			clear_img(t_img *img);
 t_object		*sphere_init(t_vec3 center, double radius, t_material material);
 t_object		*plane_init(t_vec3 center, t_vec3 normal, t_material material);
 t_object		*triangle_init(t_vec3 p1, t_vec3 p2, t_vec3 p3, t_material material);
+t_object		*square_init(t_vec3 center, t_vec3 normal, double side_size, t_material material);
 t_light			*light_init(t_vec3 position, t_fcolor intensity);
 t_camera		*camera_init(t_world *world, t_vec3 pos, t_vec3 orientation, double fov);
 // Object's functions
