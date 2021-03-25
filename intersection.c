@@ -6,6 +6,8 @@ t_intersection	calc_intersection(t_ray ray, t_object object)
 		return (calc_plane_intersection(ray, object));
 	else if (object.type == SPHERE)
 		return (calc_sphere_intersection(ray, object));
+	else if (object.type == TRIANGLE)
+		return (calc_triangle_intersection(ray, object));
 }
 
 // レイがどのオブジェクトとも交点を持たない時にNULLを返す

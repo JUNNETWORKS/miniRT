@@ -98,6 +98,9 @@ typedef struct		s_object {
 	t_vec3			normal;  // plane
 	double			radius;  // sphere
 	t_material		material;  // 材料の反射係数などを保持する
+	t_vec3			p1;      // triangle
+	t_vec3			p2;      // triangle
+	t_vec3			p3;      // triangle
 }					t_object;
 
 typedef struct		s_camera {
@@ -128,11 +131,13 @@ void			clear_img(t_img *img);
 // Initializers
 t_object		*sphere_init(t_vec3 center, double radius, t_material material);
 t_object		*plane_init(t_vec3 center, t_vec3 normal, t_material material);
+t_object		*triangle_init(t_vec3 p1, t_vec3 p2, t_vec3 p3, t_material material);
 t_light			*light_init(t_vec3 position, t_fcolor intensity);
 t_camera		*camera_init(t_world *world, t_vec3 pos, t_vec3 orientation, double fov);
 // Object's functions
 t_intersection	calc_sphere_intersection(t_ray ray, t_object sphere);
 t_intersection	calc_plane_intersection(t_ray ray, t_object plane);
+t_intersection	calc_triangle_intersection(t_ray ray, t_object triangle);
 // calculations
 t_intersection	calc_intersection(t_ray ray, t_object object);
 t_object		*get_nearest_object(t_world *world, t_ray ray);
