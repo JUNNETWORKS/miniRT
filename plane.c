@@ -23,7 +23,6 @@ t_intersection	calc_plane_intersection(t_ray ray, t_object plane)
 	d_n_dot = vec3_dot(vec3_mult(ray.direction, -1), plane.normal);
 	if (d_n_dot == 0)
 	{
-		t_intersection intersection;
 		intersection.has_intersection = false;
 		return (intersection);
 	}
