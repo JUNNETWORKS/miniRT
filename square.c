@@ -13,13 +13,32 @@ t_object		*square_init(t_vec3 center, t_vec3 normal, double side_size, t_materia
 	return (square);
 }
 
+/* 四角形の内外判定のやり方
+ *   1. カメラと同じように四角形平面空間上での基底ベクトルを求める.
+ *      つまり, 四角形平面をスクリーンのような感じでx,yの2軸で表せるようにする.
+ *   2. 求めた四角形平面空間上での基底ベクトルと四角形の中心から平面上の交点とのベクトルで内積を取ってx,yの距離を求める.
+ *      求めたx,yの距離を使って内外判定を行う.
+ */
 static bool		is_point_in_square(t_vec3 point, t_object square)
 {
-	t_vec3		dist;  // 四角形の中心からpointまでのベクトル
+	// 四角形平面空間上での基底ベクトル
+	t_vec3		x_basis;
+	t_vec3		y_basis;
+	x_basis.x = square.normal.z / sqrt(square.normal.z * square.normal.z + square.normal.x * square.normal.x);
+	x_basis.y = 0;
+	x_basis.z = -square.normal.x / sqrt(square.normal.z * square.normal.z + square.normal.x * square.normal.x);
+	x_basis = vec3_normalize(x_basis);
+	y_basis = vec3_normalize(vec3_cross(x_basis, vec3_mult(square.normal, -1)));
 
-	dist = vec3_sub(point, square.center);
-	if (dist.x >= -square.side_size / 2 && dist.x <= square.side_size / 2 &&
-		dist.y >= -square.side_size / 2 && dist.y <= square.side_size / 2)
+	t_vec3		o_p;  // 四角形の中心からpointまでのベクトル
+	o_p = vec3_sub(point, square.center);
+	// x, yにおける距離を求める
+	double		x_dist;
+	double		y_dist;
+	x_dist = vec3_dot(o_p, x_basis);
+	y_dist = vec3_dot(o_p, y_basis);
+	if (x_dist >= -square.side_size / 2 && x_dist <= square.side_size / 2 &&
+		y_dist >= -square.side_size / 2 && y_dist <= square.side_size / 2)
 		return (true);
 	return (false);
 }
@@ -44,7 +63,6 @@ t_intersection	calc_square_intersection(t_ray ray, t_object square)
 		return (intersection);
 	}
 	t = vec3_dot(center2camera, square.normal) / d_n_dot;
-	intersection.has_intersection = true;
 	intersection.distance = t;
 	// d_n_dot(cosθ)がマイナスだったらなす角が90°より大きいから法線ベクトルを逆向きになる
 	intersection.normal = d_n_dot > 0 ? square.normal : vec3_mult(square.normal, -1);
