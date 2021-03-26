@@ -41,24 +41,24 @@ t_intersection	calc_cylinder_intersection(t_ray ray, t_object cylinder)
 	t_vec3 p_outer = vec3_add(ray.start, vec3_mult(ray.direction, t_outer));
 	t_vec3 p_inner = vec3_add(ray.start, vec3_mult(ray.direction, t_inner));
 
-	t_vec3 p2center_outer = vec3_sub(p_outer, cylinder.center);
-	t_vec3 p2center_inner = vec3_sub(p_inner, cylinder.center);
+	t_vec3 center2p_outer = vec3_sub(p_outer, cylinder.center);
+	t_vec3 center2p_inner = vec3_sub(p_inner, cylinder.center);
 
 	// 底面から交点までの高さ
-	double height_outer = vec3_dot(p2center_outer, cylinder.normal);
-	double height_inner = vec3_dot(p2center_inner, cylinder.normal);
+	double height_outer = vec3_dot(center2p_outer, cylinder.normal);
+	double height_inner = vec3_dot(center2p_inner, cylinder.normal);
 
-	if (height_outer >= 0 && height_inner <= cylinder.height)
+	if (height_outer >= 0 && height_outer <= cylinder.height)
 	{
 		intersection.has_intersection = true;
-		intersection.normal = vec3_normalize(vec3_sub(p2center_outer, vec3_mult(cylinder.normal, vec3_dot(p2center_outer, cylinder.normal))));
+		intersection.normal = vec3_normalize(vec3_sub(center2p_outer, vec3_mult(cylinder.normal, height_outer)));
 		intersection.distance = t_outer;
 		intersection.position = p_outer;
 	}
 	else if (height_inner >= 0 && height_inner <= cylinder.height)
 	{
 		intersection.has_intersection = true;
-		intersection.normal = vec3_normalize(vec3_sub(p2center_inner, vec3_mult(cylinder.normal, vec3_dot(p2center_inner, cylinder.normal))));
+		intersection.normal = vec3_normalize(vec3_sub(vec3_mult(cylinder.normal, height_inner), center2p_inner));
 		intersection.distance = t_inner;
 		intersection.position = p_inner;
 	}
