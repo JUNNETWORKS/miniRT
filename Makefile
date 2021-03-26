@@ -26,6 +26,7 @@ SRCS = main.c \
 	   triangle.c \
 	   square.c \
 	   camera.c \
+	   cylinder.c \
 	   intersection.c \
 	   material.c \
 	   light.c \
