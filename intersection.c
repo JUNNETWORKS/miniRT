@@ -10,6 +10,8 @@ t_intersection	calc_intersection(t_ray ray, t_object object)
 		return (calc_triangle_intersection(ray, object));
 	else if (object.type == SQUARE)
 		return (calc_square_intersection(ray, object));
+	else if (object.type == CYLINDER)
+		return (calc_cylinder_intersection(ray, object));
 }
 
 // レイがどのオブジェクトとも交点を持たない時にNULLを返す
