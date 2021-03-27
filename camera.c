@@ -8,6 +8,14 @@ t_camera	*camera_init(t_world *world, t_vec3 pos, t_vec3 orientation, double fov
 	camera->pos = pos;
 	camera->orientation = orientation;
 	camera->fov = fov;
+	// Setup camera image
+	camera->img.img = mlx_new_image(world->mlx,
+		world->screen_width, world->screen_height);
+	camera->img.addr = mlx_get_data_addr(camera->img.img,
+		&camera->img.bits_per_pixel, &camera->img.line_length, &camera->img.endian);
+	camera->img.width = world->screen_width;
+	camera->img.height = world->screen_height;
+
 	// カメラからスクリーンまでの距離
 	double d = world->screen_width / 2 / tan(deg2rad(camera->fov / 2));
 	// カメラからスクリーンの中心へのベクトル

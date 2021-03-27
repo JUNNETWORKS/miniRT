@@ -67,25 +67,22 @@ int		initialize_objects(t_world *world)
 	return (0);
 }
 
-int	raytracing(t_world *world)
+int	raytracing(t_world *world, t_camera *camera)
 {
-	t_camera camera;
-	camera = *(t_camera*)world->cameras->content;
-
 	for (double x = 0; x < world->screen_width; x++){
 		for (double y = 0; y < world->screen_height; y++){
 			// スクリーン座標からワールド座標への変換
 			// スクリーン上の位置
 			double sw = x - (world->screen_width - 1) / 2;  // [-2/w ~ 2/w]
 			double sh = (world->screen_height - 1) / 2 - y;  // [-2/h ~ 2/h]
-			t_vec3 xx = vec3_mult(camera.x_basis, sw);
-			t_vec3 yy = vec3_mult(camera.y_basis, sh);
+			t_vec3 xx = vec3_mult(camera->x_basis, sw);
+			t_vec3 yy = vec3_mult(camera->y_basis, sh);
 			t_vec3 ray_direction;
-			ray_direction = vec3_normalize(vec3_add(camera.d_center, vec3_add(xx, yy)));
+			ray_direction = vec3_normalize(vec3_add(camera->d_center, vec3_add(xx, yy)));
 
 			// レイ(光線)
 			t_ray ray;
-			ray.start = camera.pos;
+			ray.start = camera->pos;
 			ray.direction = ray_direction;
 
 			// もっと交点距離の短いオブジェクトを取得する
@@ -122,22 +119,36 @@ int	raytracing(t_world *world)
 				// 最終的な輝度  環境光 + (拡散反射光(Diffuse) + 鏡面反射光(Specular))
 				t_fcolor R_r = fcolor_add(R_a, R_ds);
 
-				my_mlx_pixel_put(&world->img, x, y, fcolor2hex(R_r));
+				my_mlx_pixel_put(&camera->img, x, y, fcolor2hex(R_r));
 			}
 			else
 			{
-				my_mlx_pixel_put(&world->img, x, y, 0X6594EC);
+				my_mlx_pixel_put(&camera->img, x, y, 0X6594EC);
 			}
 		}
 	}
 	return (0);
 }
 
+int	render_all_cameras(t_world *world)
+{
+	t_dlist *first_camera = world->cameras;  // ループ用
+	t_camera *camera;
+	do {
+		camera = (t_camera*)world->cameras->content;
+		raytracing(world, camera);
+		printf("DONE rendering camera at %p\n", camera);
+		world->cameras = world->cameras->next;
+	} while(world->cameras != first_camera);
+	return (0);
+}
+
 int	main_loop(t_world *world)
 {
-	clear_img(&world->img);
-	raytracing(world);
-	mlx_put_image_to_window(world->mlx, world->win, world->img.img, 0, 0);
+	t_camera	*camera;
+
+	camera = (t_camera*)world->cameras->content;
+	mlx_put_image_to_window(world->mlx, world->win, camera->img.img, 0, 0);
 	return (0);
 }
 
@@ -163,6 +174,7 @@ int main(int argc, char **argv)
 		return (EXIT_FAILURE);
 	// initialize_objects(&world);
 	print_world(&world);
+	render_all_cameras(&world);
 	mlx_hook(world.win, KeyPress, KeyPressMask, key_press_hook, &world);
 	mlx_hook(world.win, ClientMessage, 1L << 17, exit_world, &world);
 	mlx_loop_hook(world.mlx, &main_loop, &world);

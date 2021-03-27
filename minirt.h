@@ -112,6 +112,7 @@ typedef struct		s_camera {
 	t_vec3			x_basis;
 	t_vec3			y_basis;
 	t_vec3			d_center;  // カメラからスクリーンの中心へのベクトル
+	t_img			img;
 }					t_camera;
 
 typedef struct	s_world {
