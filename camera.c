@@ -28,6 +28,21 @@ t_camera	*camera_init(t_world *world, t_vec3 pos, t_vec3 orientation, double fov
 	x_basis.z = -camera->d_center.x / sqrt(camera->d_center.z * camera->d_center.z + camera->d_center.x * camera->d_center.x);
 	t_vec3 y_basis;
 	y_basis = vec3_normalize(vec3_cross(x_basis, vec3_mult(camera->d_center, -1)));
+
+	// カメラが真上と真下を向いている時はエッジケース
+	if (camera->orientation.x == 0 && camera->orientation.y != 0 && camera->orientation.z == 0)
+	{
+		if (camera->orientation.y > 0)
+		{
+			x_basis = vec3_init(1, 0, 0);
+			y_basis = vec3_init(0, 0, -1);
+		}
+		else
+		{
+			x_basis = vec3_init(-1, 0, 0);
+			y_basis = vec3_init(0, 0, 1);
+		}
+	}
 	
 	camera->x_basis = x_basis;
 	camera->y_basis = y_basis;
