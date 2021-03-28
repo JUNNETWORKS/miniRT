@@ -17,6 +17,7 @@ t_dlist	*dlst_add_right(t_dlist **lst, t_dlist *newlst)
 		(*lst)->next->prev = newlst;
 		(*lst)->next = newlst;
 	}
+	*lst = newlst;
 	return (*lst);
 }
 
@@ -46,6 +47,7 @@ t_dlist	*dlst_add_left(t_dlist **lst, t_dlist *newlst)
 		(*lst)->prev->next = newlst;
 		(*lst)->prev = newlst;
 	}
+	*lst = newlst;
 	return (*lst);
 }
 
