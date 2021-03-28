@@ -97,27 +97,31 @@ int	raytracing(t_world *world, t_camera *camera)
 
 				t_list *current_light = world->lights;
 				// 拡散反射光(Diffuse) + 鏡面反射光(Specular)
-				t_fcolor reflection_d_s = fcolor_init(0, 0, 0);
+				t_fcolor ref_diff_spec = fcolor_init(0, 0, 0);
 				while (current_light)
 				{
-					// 物体表面の反射輝度(拡散反射光と鏡面反射光)の計算
-					t_fcolor current_R_ds = calc_lighting_Rds(ray,
+					// 対象の光源における拡散反射光
+					t_fcolor ref_diff = calc_ref_diff(ray,
 														*nearest_object_ptr,
 														intersection,
 														*(t_light*)current_light->content);
+					// 対象の光源における鏡面反射光
+					t_fcolor ref_spec = calc_ref_spec(ray,
+														*nearest_object_ptr,
+														intersection,
+														*(t_light*)current_light->content);
+					// 物体表面の反射輝度(拡散反射光+鏡面反射光)の計算
+					t_fcolor current_ref_diff_spec = fcolor_add(ref_diff, ref_spec);
 					if (has_shadow(world, *(t_light*)current_light->content, intersection))
-						current_R_ds = fcolor_init(0,0,0);
-					reflection_d_s = fcolor_add(reflection_d_s, current_R_ds);
+						current_ref_diff_spec = fcolor_init(0,0,0);
+					ref_diff_spec = fcolor_add(ref_diff_spec, current_ref_diff_spec);
 					current_light = current_light->next;
 				}
-				// 環境光の強度
-				t_fcolor I_a = world->ambient;
-				t_fcolor object_color = nearest_object_ptr->material.kDif;
 				// 環境光R_a
-				t_fcolor ref_ambient = fcolor_mult(object_color, I_a);
+				t_fcolor ref_ambient = fcolor_mult(nearest_object_ptr->material.kDif, world->ambient);
 				// t_fcolor ref_ambient = fcolor_init(0, 0, 0);
 				// 最終的な輝度  環境光 + (拡散反射光(Diffuse) + 鏡面反射光(Specular))
-				t_fcolor ref_result = fcolor_add(ref_ambient, reflection_d_s);
+				t_fcolor ref_result = fcolor_add(ref_ambient, ref_diff_spec);
 
 				my_mlx_pixel_put(&camera->img, x, y, fcolor2hex(ref_result));
 			}

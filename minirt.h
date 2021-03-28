@@ -125,7 +125,7 @@ typedef struct	s_world {
 	int			screen_height;
 	t_dlist		*cameras;
 	t_list		*objects;
-	t_fcolor	ambient;
+	t_fcolor	ambient;  // 環境光の強度
 	t_list		*lights;
 }				t_world;
 
@@ -150,7 +150,8 @@ t_intersection	calc_cylinder_intersection(t_ray ray, t_object cylinder);
 // calculations
 t_intersection	calc_intersection(t_ray ray, t_object object);
 t_object		*get_nearest_object(t_world *world, t_ray ray);
-t_fcolor		calc_lighting_Rds(t_ray ray, t_object object, t_intersection intersection, t_light light);
+t_fcolor		calc_ref_diff(t_ray ray, t_object object, t_intersection intersection, t_light light);
+t_fcolor		calc_ref_spec(t_ray ray, t_object object, t_intersection intersection, t_light light);
 bool			has_shadow(t_world *world, t_light light, t_intersection intersection);
 // fcolor
 uint32_t		fcolor2hex(t_fcolor fcolor);
