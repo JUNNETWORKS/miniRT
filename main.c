@@ -70,8 +70,10 @@ int	raytracing(t_world *world, t_camera *camera)
 
 int	render_all_cameras(t_world *world)
 {
-	t_dlist *first_camera = world->cameras;  // ループ用
+	t_dlist *first_camera;  // ループ用
 	t_camera *camera;
+
+	first_camera = world->cameras;
 	do {
 		camera = (t_camera*)world->cameras->content;
 		raytracing(world, camera);
@@ -106,7 +108,8 @@ int main(int argc, char **argv)
 			put_and_exit_err("argv is not \"--save\"");
 		if (configure_screen(&world, false))
 			return (EXIT_FAILURE);
-		// TODO: write bmp
+		render_all_cameras(&world);
+		write_world2bmp(&world);
 		exit(EXIT_SUCCESS);
 	}
 	if (configure_screen(&world, true))
