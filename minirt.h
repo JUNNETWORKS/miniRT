@@ -28,6 +28,8 @@
 # define KEY_lallow 65361
 
 # define EPSILON 1.0 / 512
+// 光沢度α
+# define SHININESS 30
 
 # define MIN(x, y) ((x) < (y) ? (x) : (y))
 
@@ -86,8 +88,8 @@ enum	e_shape {
 };
 
 typedef struct		s_material {
-	t_fcolor		kAmb;      // 環境光反射係数
-	t_fcolor		kDif;      // 拡散反射係数
+	t_fcolor		kAmb;      // 環境光反射係数  // 使わない
+	t_fcolor		kDif;      // 拡散反射係数  // これを物体の色とする
 	t_fcolor		kSpe;      // 鏡面反射係数
 	float			shininess; // 光沢度
 }					t_material;
