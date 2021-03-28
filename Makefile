@@ -34,6 +34,7 @@ SRCS = main.c \
 	   hooks.c \
 	   load_rt.c \
 	   load_resolution.c \
+	   bmp.c \
 	   debug.c
 OBJS = $(SRCS:.c=.o)
 

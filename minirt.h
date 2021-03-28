@@ -172,6 +172,9 @@ int				set_resolution(t_world *game, char *width_str, char *height_str);
 int				initialize_world(t_world *world);
 int				configure_window(t_world *world);
 int				configure_screen(t_world *world, bool has_window);
+// BMP
+int				write_camera2bmp(t_camera *camera, char *fpath);
+int				write_world2bmp(t_world *world);
 // Utils
 double			deg2rad(double x);
 int				rad2deg(double x);
