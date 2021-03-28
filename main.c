@@ -141,6 +141,7 @@ int	render_all_cameras(t_world *world)
 		printf("DONE rendering camera at %p\n", camera);
 		world->cameras = world->cameras->next;
 	} while(world->cameras != first_camera);
+	printf("DONE all camera rendering\n");
 	return (0);
 }
 
