@@ -88,7 +88,6 @@ enum	e_shape {
 };
 
 typedef struct		s_material {
-	t_fcolor		kAmb;      // 環境光反射係数  // 使わない
 	t_fcolor		kDif;      // 拡散反射係数  // これを物体の色とする
 	t_fcolor		kSpe;      // 鏡面反射係数
 	float			shininess; // 光沢度
@@ -162,7 +161,7 @@ t_fcolor		fcolor_mult(t_fcolor a, t_fcolor b);
 t_fcolor		fcolor_mult_scalar(t_fcolor a, double b);
 int				get_fcolor_from_rgbstr(t_fcolor *fcolor, char *rgbstr);
 // material
-t_material		material_init(t_fcolor kAmb, t_fcolor kDif, t_fcolor kSpe, double shininess);
+t_material		material_init(t_fcolor kDif, t_fcolor kSpe, double shininess);
 // hooks
 int				key_press_hook(int keycode, t_world *world);
 int				exit_world(t_world *world);

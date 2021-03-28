@@ -85,8 +85,7 @@ int			set_sphere(t_world *world, char **params)
 		return (put_and_return_err("Sphere is Misconfigured"));
 	diameter = ft_atof(params[1]);
 	if (!(object = sphere_init(point, diameter / 2,
-			material_init(fcolor_init(1, 1, 1),
-							fcolor,
+			material_init(fcolor,
 							fcolor_init(0.9, 0.9, 0.9),
 							SHININESS))) ||
 		!(ft_lstadd_back_new(&world->objects, object)))
@@ -111,8 +110,7 @@ int			set_plane(t_world *world, char **params)
 		get_fcolor_from_rgbstr(&fcolor, params[2]) == ERROR)
 		return (put_and_return_err("Plane is Misconfigured"));
 	if (!(object = plane_init(point, vec3_normalize(normal),
-				material_init(fcolor_init(1, 1, 1),
-								fcolor,
+				material_init(fcolor,
 								fcolor_init(0.3, 0.3, 0.3),
 								SHININESS))) ||
 		!(ft_lstadd_back_new(&world->objects, object)))
@@ -138,8 +136,7 @@ int			set_square(t_world *world, char **params)
 		return (put_and_return_err("Square is Misconfigured"));
 	side_size = ft_atof(params[2]);
 	if (!(object = square_init(point, vec3_normalize(normal), side_size,
-				material_init(fcolor_init(1, 1, 1),
-								fcolor,
+				material_init(fcolor,
 								fcolor_init(0.3, 0.3, 0.3),
 								SHININESS))) ||
 		!(ft_lstadd_back_new(&world->objects, object)))
@@ -167,8 +164,7 @@ int			set_cylinder(t_world *world, char **params)
 	diameter = ft_atof(params[2]);
 	height = ft_atof(params[3]);
 	if (!(object = cylinder_init(point, vec3_normalize(normal), diameter / 2, height,
-				material_init(fcolor_init(1, 1, 1),
-								fcolor,
+				material_init(fcolor,
 								fcolor_init(0.3, 0.3, 0.3),
 								SHININESS))) ||
 		!(ft_lstadd_back_new(&world->objects, object)))
@@ -194,8 +190,7 @@ int			set_triangle(t_world *world, char **params)
 		get_fcolor_from_rgbstr(&fcolor, params[3]) == ERROR)
 		return (put_and_return_err("Triangle is Misconfigured"));
 	if (!(object = triangle_init(p1, p2, p3,
-				material_init(fcolor_init(1, 1, 1),
-								fcolor,
+				material_init(fcolor,
 								fcolor_init(0.3, 0.3, 0.3),
 								SHININESS))) ||
 		!(ft_lstadd_back_new(&world->objects, object)))
