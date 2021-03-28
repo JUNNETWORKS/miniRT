@@ -34,12 +34,12 @@ t_camera	*camera_init(t_world *world, t_vec3 pos, t_vec3 orientation, double fov
 	{
 		if (camera->orientation.y > 0)
 		{
-			x_basis = vec3_init(1, 0, 0);
+			x_basis = vec3_init(-1, 0, 0);
 			y_basis = vec3_init(0, 0, -1);
 		}
 		else
 		{
-			x_basis = vec3_init(-1, 0, 0);
+			x_basis = vec3_init(1, 0, 0);
 			y_basis = vec3_init(0, 0, 1);
 		}
 	}
