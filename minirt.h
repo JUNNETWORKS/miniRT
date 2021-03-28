@@ -123,7 +123,7 @@ typedef struct	s_world {
 	int			screen_height;
 	t_dlist		*cameras;
 	t_list		*objects;
-	t_fcolor	ambient_intensity;
+	t_fcolor	ambient;
 	t_list		*lights;
 }				t_world;
 

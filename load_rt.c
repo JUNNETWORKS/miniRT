@@ -22,7 +22,7 @@ int			set_ambient(t_world *world, char **params)
 	intensity = ft_atof(params[0]);
 	if (get_fcolor_from_rgbstr(&fcolor, params[1]) == ERROR)
 		return (put_and_return_err("Ambient is Misconfigured"));
-	world->ambient_intensity = fcolor_mult_scalar(fcolor, intensity);
+	world->ambient = fcolor_mult_scalar(fcolor, intensity);
 	return (0);
 }
 

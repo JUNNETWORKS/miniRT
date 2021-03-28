@@ -58,7 +58,7 @@ int		initialize_objects(t_world *world)
 		!(ft_lstadd_back_new(&world->lights, light)))
 		return (put_and_return_err("failed malloc light"));
 	// 環境光
-	world->ambient_intensity = fcolor_init(0.1, 0.1, 0.1);
+	world->ambient = fcolor_init(0.1, 0.1, 0.1);
 	// カメラ
 	t_camera *camera;
 	if (!(camera = camera_init(world, vec3_init(0, 0, -5), vec3_init(0, 0, 1), 66)) ||
