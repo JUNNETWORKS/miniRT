@@ -3,6 +3,7 @@
 int	raytracing(t_world *world, t_camera *camera)
 {
 	for (double x = 0; x < world->screen_width; x++){
+		printf("Progress: %.2f%%\r", x / (world->screen_width - 1) * 100);
 		for (double y = 0; y < world->screen_height; y++){
 			// スクリーン座標からワールド座標への変換
 			// スクリーン上の位置
@@ -65,6 +66,7 @@ int	raytracing(t_world *world, t_camera *camera)
 			}
 		}
 	}
+	printf("\n");
 	return (0);
 }
 
