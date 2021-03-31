@@ -29,12 +29,6 @@ int		configure_screen(t_world *world, bool has_window)
 {
 	if (has_window && configure_window(world) == ERROR)
 		return (ERROR);
-	world->img.img = mlx_new_image(world->mlx,
-		world->screen_width, world->screen_height);
-	world->img.addr = mlx_get_data_addr(world->img.img,
-		&world->img.bits_per_pixel, &world->img.line_length, &world->img.endian);
-	world->img.width = world->screen_width;
-	world->img.height = world->screen_height;
 	return (0);
 }
 

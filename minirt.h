@@ -119,7 +119,6 @@ typedef struct		s_camera {
 typedef struct	s_world {
 	void		*mlx;
 	void		*win;
-	t_img		img;
 	int			screen_width;
 	int			screen_height;
 	t_dlist		*cameras;
